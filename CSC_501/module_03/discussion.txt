@@ -1,0 +1,11 @@
+Agile Influence 
+
+Changing the scope of a project happens. Traditional approaches may be resistant to change due to the lack of 
+flexibility. Since agile is more flexible with its sprints, an agile approach is able to adapt and embrace the change. 
+Furthermore, since traditional methods are not very adaptable this can lead to further delays or scope creep. Whereas,
+agile methods are able to scale each sprint in order to efficiently minimize any delays.
+
+With an example project, the requirements and deliverables are essentially stationary and do not change much. With agile 
+the project can be reassessed after change time block or sprint. At which point the project's requirements and/or deliverables
+can be altered in order to adapt to the new scope and sequencing.  
+

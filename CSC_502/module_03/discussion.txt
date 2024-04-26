@@ -1,0 +1,5 @@
+﻿Big data has made people weary of their own personal data. Many companies sneakily but legally acquiring user data by flashing a bunch of fine print the users must agree to before using their platform. This is similar with health industry. The health industry justifies data mining by stating the data is used to improve patient’s experience and health. Ultimately this leaves people confused about what to do or who to trust with their personal data. 
+
+A possible remedy would be to have a clear way of letting patients choose whether or not their data can be used for training purposes. That way the datasets are made up of only data from user’s who actually know about it and want to be a part of it. Then there are hopefully no surprises to those who don’t want their data to be used. 
+
+Another possible remedy could be encryption. Encrypting the user data would essentially make it useless to anyone who is able to steal it. There is still the problem of personal data floating around but at least it would be encrypted and hopefully unusable.  

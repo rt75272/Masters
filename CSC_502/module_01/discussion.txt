@@ -1,0 +1,8 @@
+﻿1) Was the ethical conflict presented in this article preventable, or was it intentionally caused?
+
+	The ethical conflict would only be preventable if the partnership between Ascension and Google never took place. With all the data leaks from big tech companies, such as Facebook, consumers are having a hard time trusting anyone with their data. This is because the data ends up being used in AI models and/or sold to other companies. However, at the same time, I do not believe the conflict was intentionally caused. It seems any technological advancements which require vasts amounts of data scares the public anymore. The majority of the public simply does not trust big tech with their data.   
+
+
+2) Identify ways in which the ethical conflict can be resolved or mitigated.
+	
+	Advanced encryption could be a way to mitigate the conflict. It may not solve the issue, however, is consumers knew their data was heavily encrypted they may be more accepting of potential data leaks. This is because even if the data is leaked, nobody would be able to use it. Or at the very least the data thieves would have a really difficult time attempting to use heavily encrypted data and may not even bother. 
