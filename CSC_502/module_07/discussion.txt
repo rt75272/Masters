@@ -1,0 +1,7 @@
+﻿	People stealing software could potentially argue that they are doing it for the greater good and that they support open source software. Therefore, they would believe software should be open source for all to help and contribute to. Similar to how Linux is open source. An article written by Desai with Forbes argues all software ought to be open source. The argument is open source software benefits from the entire community working on it. Additionally, that open source software has fueled innovation for decades, providing the building blocks for the internet and the modern cloud. However, stolen software is still stolen. Which is where utilitarianism comes into the scene. One could argue they are simply using the stolen software in order to build up their own version quicker and better. Thus, contributing to the greater good for software consumers. 
+
+
+Reference:
+
+Desai, M. (2023, October 27). Council post: Why every company should be open-source aligned. Forbes. https://www.forbes.com/sites/forbestechcouncil/2023/10/25/why-every-company-should-be-open-source-aligned/?sh=1021802e6007 
+
