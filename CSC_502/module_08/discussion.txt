@@ -1,0 +1,6 @@
+﻿Conducting ethical research in the darknet can be difficult. Researchers could implement come web crawlers to gather data. Unfortunately, it can be hard because it is a challenge to find out where the data is exactly coming from. This is thanks to the darknet’s anonymity. Data on the darknet is virtually untraceable sometimes. Therefore, it is nearly impossible to tell if the data was gathered in an ethical manner. However, we could look at it from more of a utilitarian stand point. Researchers could conduct darknet research with data that may not be harvested ethically in order to a breakthrough with their research. The breakthrough could lead to greater outcome. Thus doing some potentially unethical data research in order to help the greater good. 
+
+Reference:
+
+Author links open overlay panelRaghu Raman a, a, b, c, d, & Darkweb, A. (2023, November 17). Darkweb research: Past, present, and future trends and mapping to sustainable development goals. Heliyon. https://www.sciencedirect.com/science/article/pii/S240584402309477X 
+
