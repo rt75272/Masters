@@ -1,25 +1,28 @@
-from random import random
+from helper import *
+# ---------------------------------------------------------
+# Coin Flip Simulation
+#
+# Simulates and displays heads vs tails win ratios for n
+# number of coin flips.
+#
+# Usage:
+#   $ python coin_flip.py
+# ---------------------------------------------------------
 
+# Printer function displays heads vs tails win ratios.
+def printer(heads_ratio, tails_ratio):
+    print("Heads win ratio: " + str(heads_ratio) + "%")
+    print("Tails win ratio: " + str(tails_ratio) + "%")
 
-heads_wins = 0
-tails_wins = 0
-n = 1000000
-for i in range(n):
-    x = random() * 10
-    # print(x)
-    if(x < 5):
-        print("heads")
-        heads_wins+=1
-    elif(x > 5):
-        print("tails")
-        tails_wins+=1
+# Main driver function.
+def main():
+    starter = helper(0,0,99) # Calling the helper class.
+    starter.simulate() # Run the simulation.
+    ratios = starter.get_ratios() # Grabbing the ratios.
+    heads_ratio = ratios[0] # Assigning the heads win ratio.
+    tails_ratio = ratios[1] # Assigning the tail win ratio.
+    printer(heads_ratio, tails_ratio) # Calling the printer function.
 
-heads_ratio = heads_wins / n * 100
-tails_ratio = tails_wins / n * 100
-
-heads_ratio = round(heads_ratio, 4)
-tails_ratio = round(tails_ratio, 4)
-
-
-print("Heads win ratio: " + str(heads_ratio))
-print("Tails win ratio: " + str(tails_ratio))
+# Pushing the big red button.
+if __name__=="__main__":
+    main() # Fire the main function.
