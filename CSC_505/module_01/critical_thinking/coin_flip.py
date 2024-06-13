@@ -7,6 +7,7 @@ from helper import *
 #
 # Usage:
 #   $ python coin_flip.py
+#   $ Enter the number of simualtions(n)
 # ---------------------------------------------------------
 
 # Printer function displays heads vs tails win ratios.
@@ -16,7 +17,8 @@ def printer(heads_ratio, tails_ratio):
 
 # Main driver function.
 def main():
-    starter = helper(0,0,99) # Calling the helper class.
+    n = int(input("Enter the number of simulations(n): "))
+    starter = helper(0,0,n) # Calling the helper class.
     starter.simulate() # Run the simulation.
     ratios = starter.get_ratios() # Grabbing the ratios.
     heads_ratio = ratios[0] # Assigning the heads win ratio.

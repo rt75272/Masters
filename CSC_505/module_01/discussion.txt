@@ -1,0 +1,15 @@
+﻿Is the definition adequate?
+Definition: Software is a set of instructions, data, or programs used to operate computers and execute specific tasks. It is the non-tangible component of computers, encompassing applications, operating systems, utilities, and more.
+
+I believe the definition is adequate due to describing how software is the non-tangible instructions, data, or programs used to operate computer hardware. Thus, suggesting that computer hardware is useless without computer software. 
+
+What is missing?
+The definition could be a little more specific with what software development and tasks actually entails. For example, software could be the AI assistant built into your computer, tablet, or smart phone.
+
+Why is it difficult to define software?
+Given the nature of being non-tangible makes it difficult to describe exactly what it is because it almost requires some imagination to picture it in one’s head.
+
+Does this definition keep in mind best practices of software development?
+The definition does not specify the best practices or really the development process. It simply gives an overview of what software is rather than how it works. 
+
+
