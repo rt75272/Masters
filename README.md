@@ -1,2 +1,2 @@
 # Graduate
-MS in Artificial Intelligence and Machine Learning with Colorado State University - Global
+MS in Artificial Intelligence and Machine Learning with Colorado State University Global
