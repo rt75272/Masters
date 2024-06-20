@@ -1,0 +1,12 @@
+﻿Question 1: What designers should ask users.
+	Designers should ask what features and functionality the users want in their platform. Additionally, the designers should ask the users if they want certain aesthetics involved in the design. Such as the layout, themes, or specific color combinations. If the users don’t have any preference then the designer can make a few different layouts and see what the users think.
+
+
+Question 2: What users should ask designers.
+	Users should ask for some type of tutorial and/or documentation on how to use and navigate the platform. That way the users are not lost at first and thus  turned off simply by not knowing how to use the platform. The users should also ask the designers if they can have specific color themes, if desired. 
+
+Question 3: What users should ask themselves about the software product that is to be built.
+	Users should ask themselves what they want out of the product. Such as what functionality and how they would like the platform to look. At which point they can talk with the software designers in order to implement the desired features and aesthetics. 
+
+Questions 4 and 5: What designers should ask themselves about the software product to be built and the process to be used to build it.
+	Designers should ask themselves what technologies they will need to harness in order to implement the desired features. At which point the designers can begin planning out the build and get a prototype up and running as quickly as possible. Which also allows the designers to present a timeline for its expected users. Furthermore, the designers should take into consideration the maintenance aspect of the platform. This is important because the software product will need continuous updates to keep it running smoothly and to improve the platform for its users. 
