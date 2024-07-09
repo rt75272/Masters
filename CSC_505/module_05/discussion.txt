@@ -1,0 +1,15 @@
+﻿ATM Use Case
+
+1. As an ATM user, you can expect to start by inserting a bank card into the automated machine.
+2. The machine will ask the user for a security pin or password.
+3. Upon submitting the correct pin/password, the user can select the desired withdrawal feature.
+4. At which point, the user can enter the desired withdrawal amount.
+5. The machine will ensure there are sufficient funds for the withdrawal amount.
+6. After the machine clears the withdrawal amount, the user will be prompted to confirm the amount.
+7. If the user does not confirm the amount, the transaction will be canceled and the user will be prompted on how to proceed.
+8. If the user does confirm the amount, the machine will then dispense the confirmed amount of cash.
+9. After dispensing the cash, the machine will ask the user if there is anything else it can do for the user.
+10. The user can now select other ATM features or select to return their bank card.
+11. If the user does not select another feature, the ATM returns the bank card to the user.
+12. The user’s entire transaction is now complete and the ATM will reset to the home page in order to prepare for the next user.
+
