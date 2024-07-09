@@ -1,6 +1,4 @@
+
 Apples
-Coke
-Dog
-Dragon
+Bananas
 Computer
-steak
