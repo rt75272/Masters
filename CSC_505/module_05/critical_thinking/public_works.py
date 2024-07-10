@@ -1,7 +1,22 @@
 import random
-
+# ------------------------------------------------------------------ 
+# Public Works.
+#
+# Builds up a work order object.
+#
+# Usage:
+#   import public_works
+#   example_var = public_works.public_works(repair_crew_id, 
+#                                           num_people, 
+#                                           equipment_used, 
+#                                           hours_worked, 
+#                                           hole_status, 
+#                                           material_used)
+# ------------------------------------------------------------------
 class public_works:
+    # Assign a random work id number.
     random_work_id = random.randint(0,99999)
+    # Constructor function.
     def __init__(self, 
                  repair_crew_id, 
                  num_people, 

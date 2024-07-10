@@ -1,7 +1,19 @@
 import random
-
+# ------------------------------------------------------------------ 
+# Citizen.
+#
+# Builds up a citizen object.
+#
+# Usage:
+#   import citizen
+#   example_var = citizen.citizen(name,
+#                                 phone,
+#                                 citizen_address)
+# ------------------------------------------------------------------
 class citizen:
+    # Assign a random citizen id number.
     random_citizen_id = random.randint(0,99999)
+    # Constructor function.
     def __init__(self, 
                  name, 
                  phone, 

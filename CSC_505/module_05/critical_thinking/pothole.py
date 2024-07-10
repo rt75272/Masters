@@ -1,7 +1,19 @@
 import random
-
+# ------------------------------------------------------------------ 
+# Pothole.
+#
+# Builds up a pothole object.
+#
+# Usage:
+#   import pothole
+#   example_var = pothole.pothole(size,
+#                                 pothole_address,
+#                                 location)
+# ------------------------------------------------------------------
 class pothole:
+    # Assign a random pothole id number.
     random_pothole_id = random.randint(0,99999)
+    # Constructor function.
     def __init__(self,  
                  size, # Scales from 1 to 10.
                  pothole_address,
