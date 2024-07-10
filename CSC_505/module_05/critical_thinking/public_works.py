@@ -23,7 +23,7 @@ class public_works:
                  equipment_used, 
                  hours_worked, 
                  hole_status, # work-in-progress, repaired, temp_repair, or not_repaired.
-                 material_used, # amount of filler material used.
+                 material_used, # Amount of filler material used.
                  repair_cost=0, # hours_worked * num_people * material_used * equipment_used.
                  work_id=random_work_id):
         self.repair_crew_id = repair_crew_id         
@@ -44,5 +44,9 @@ class public_works:
             self.material_used * 
             self.equipment_used)
         
-        # Formatting the cost to have commas every 3 digits.
+        # Round the total cost to the nearest two decimals.
+        self.repair_cost = round(self.repair_cost, 2)
+
+        # Formatting the cost to have commas every 3 digits and a dollar sign.
         self.repair_cost = '{:,}'.format(self.repair_cost)
+        self.repair_cost = "$" + str(self.repair_cost)

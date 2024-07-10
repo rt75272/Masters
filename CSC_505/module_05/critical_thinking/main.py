@@ -26,8 +26,8 @@ personal_address += " North Street"
 
 # Load parameters into the citizen object.
 person = citizen.citizen(name,
-                        phone_number, 
-                        personal_address)
+                         phone_number, 
+                         personal_address)
 
 # POTHOLE OBJECT
 # Assign a random pothole size.
@@ -76,21 +76,26 @@ work_order = public_works.public_works(repair_crew_id,
                                        material_used)
 
 # Outputs a class object's variable names along with their values.
-def get_attributes(class_object, filename, file):
+def get_attributes(class_object, file):
     # Grabbing the variables from their respective classes.
     class_keys = class_object.__dict__.keys()
+
     # Number of variables in a given class object.
     n = len(class_keys)
+    
     # The output string will be built up and written to the damage report file.
     output_string = "\n"
+    
     # Looping through all of a class object's variables/values.
     for i in range(n):
         # Grab the variable name from the class object.
         x = list(class_keys)[i]
         output_string += str(x) + " : "
+    
         # Grab the value of the current variable.
         output_string += str(class_object.__getattribute__(x))
         output_string += "\n"
+    
     # Display output string and write to file.
     print(output_string)
     file.write(output_string)
@@ -98,28 +103,30 @@ def get_attributes(class_object, filename, file):
 # Main driver function.
 def main():
     # Build a unique filename.
+    ticket_number = random.randint(1111, 9999)
     filename = "damage_report_"
-    filename += str(random.randint(1111, 9999))
+    filename += str(ticket_number)
     filename += ".txt"
 
     # File to be the damage report.
     file = open(filename, "a")
-    file.write("=======================\n")
-    file.write("-----DAMAGE REPORT-----\n")
-    file.write("=======================\n")    
+    file.write("=======================================\n")
+    file.write("-------------DAMAGE REPORT-------------\n")
+    file.write("=======================================\n")    
 
     # Build and assign a work ticket number.
-    ticket_number = random.randint(0,999999)
     ticket_info = "\nTICKET NUMBER: "
     ticket_info += str(ticket_number) + "\n"
+    print(ticket_info)
     file.write(ticket_info)
     
     # Get all the variables from each class object.
-    get_attributes(person, filename, file)
-    get_attributes(hole, filename, file)
-    get_attributes(work_order, filename, file)
+    get_attributes(person, file)
+    get_attributes(hole, file)
+    get_attributes(work_order, file)
 
     file.close()
+
 # Pushing the big red button.
 if __name__ == "__main__":
     main()

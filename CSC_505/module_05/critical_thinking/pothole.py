@@ -18,7 +18,7 @@ class pothole:
                  size, # Scales from 1 to 10.
                  pothole_address,
                  location=0, # Middle, curb, etc.
-                 district=0, # Determined by pothole_address.,
+                 district=0, # Determined by pothole_address.
                  repair_priority=0, # Determined by size.
                  pothole_id=random_pothole_id):
         self.pothole_id = pothole_id
