@@ -12,7 +12,8 @@ import random
 # ------------------------------------------------------------------
 class pothole:
     # Assign a random pothole id number.
-    random_pothole_id = random.randint(0,99999)
+    random_pothole_id = random.randint(0, 99999)
+    
     # Constructor function.
     def __init__(self,  
                  size, # Scales from 1 to 10.

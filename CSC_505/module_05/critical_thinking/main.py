@@ -9,20 +9,25 @@ import random
 #
 # Usage:
 #   $ python main.py
+#   # OR
+#   $ make report
 # ------------------------------------------------------------------
 # CITIZEN OBJECT 
+UPPER_LIMIT = 9999
 # Assign a random name.
 names = ["Jane Doe", "John Doe"]
-name = names[random.randint(0,1)]
+name = names[random.randint(0, len(names)-1)]
 
 # Assign a random phone number.
-phone_number = "(" + str(random.randint(111, 999)) + ")"
-phone_number += str(random.randint(111,999)) + "-"
-phone_number += str(random.randint(1111,9999))
+phone_number = "(" + str(random.randint(100, 999)) + ")"
+phone_number += str(random.randint(100, 999)) + "-"
+phone_number += str(random.randint(1000, UPPER_LIMIT))
 
 # Assign a random street address.
-personal_address = str(random.randint(111,9999))
-personal_address += " North Street"
+directions = [" North", " South", " East", " West"]
+personal_address = str(random.randint(100, UPPER_LIMIT))
+personal_address += directions[random.randint(0, len(directions)-1)]
+personal_address += " Street"
 
 # Load parameters into the citizen object.
 person = citizen.citizen(name,
@@ -31,15 +36,16 @@ person = citizen.citizen(name,
 
 # POTHOLE OBJECT
 # Assign a random pothole size.
-size = random.randint(0,9)
+size = random.randint(0, 9)
 
 # Assign a pothole location.
 locations = ["curb", "middle", "etc"]
-location = locations[random.randint(0,2)]
+location = locations[random.randint(0, len(locations)-1)]
 
 # Assign a random pothole street address.
-pothole_address = str(random.randint(111,9999))
-pothole_address += " North Street"
+pothole_address = str(random.randint(100, UPPER_LIMIT))
+pothole_address += directions[random.randint(0, len(directions)-1)]
+pothole_address += " Street"
 
 # Load and build the pothole class object.
 hole = pothole.pothole(size,
@@ -48,12 +54,12 @@ hole = pothole.pothole(size,
 
 # PUBLIC WORKS OBJECT
 # Assign a random work crew number.
-repair_crew_id = random.randint(0, 9999)
+repair_crew_id = random.randint(0, UPPER_LIMIT)
 
 # Number of workers involved.
-num_people = random.randint(1,25)
+num_people = random.randint(1, 25)
 
-# Equipment rate per hour.
+# Equipment used with rate per hour.
 equipment_used = random.random()*100
 equipment_used = float('%.2f'%equipment_used)
 
@@ -62,7 +68,7 @@ hours_worked = random.randint(32, 40)
 
 # Assign a pothole status option.
 hole_status_options = ["work-in-progress", "repaired", "temporary fix", "not started"]
-hole_status = hole_status_options[random.randint(0,3)]
+hole_status = hole_status_options[random.randint(0, len(hole_status_options)-1)]
 
 # Total amount of filler material used.
 material_used = random.randint(1, 99) 
@@ -89,11 +95,11 @@ def get_attributes(class_object, file):
     # Looping through all of a class object's variables/values.
     for i in range(n):
         # Grab the variable name from the class object.
-        x = list(class_keys)[i]
-        output_string += str(x) + " : "
+        item = list(class_keys)[i]
+        output_string += str(item) + ": "
     
         # Grab the value of the current variable.
-        output_string += str(class_object.__getattribute__(x))
+        output_string += str(class_object.__getattribute__(item))
         output_string += "\n"
     
     # Display output string and write to file.
@@ -103,7 +109,7 @@ def get_attributes(class_object, file):
 # Main driver function.
 def main():
     # Build a unique filename.
-    ticket_number = random.randint(1111, 9999)
+    ticket_number = random.randint(1000, UPPER_LIMIT)
     filename = "damage_report_"
     filename += str(ticket_number)
     filename += ".txt"
@@ -112,7 +118,7 @@ def main():
     file = open(filename, "a")
     file.write("=======================================\n")
     file.write("-------------DAMAGE REPORT-------------\n")
-    file.write("=======================================\n")    
+    file.write("=======================================\n")
 
     # Build and assign a work ticket number.
     ticket_info = "\nTICKET NUMBER: "
