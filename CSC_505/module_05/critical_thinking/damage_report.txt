@@ -1,0 +1,51 @@
+
+repair_crew_id : 723
+num_people : 7
+equipment_used : 299.99
+hours_worked : 7
+hole_status : work-in-progress
+material_used : 99
+repair_cost : 1,455,251.49
+work_id : 99112
+
+name : Tom Smith
+citizen_address : 42nd Street
+phone : (720)142-4542
+citizen_id : 84953
+
+pothole_id : 48943
+pothole_address : 42nd St
+size : 2.0
+location : middle
+district : 1
+repair_priority : LOW
+
+repair_crew_id : 723
+num_people : 7
+equipment_used : 299.99
+hours_worked : 7
+hole_status : work-in-progress
+material_used : 99
+repair_cost : 1,455,251.49
+work_id : 19727
+
+name : Tom Smith
+citizen_address : 42nd Street
+phone : (720)142-4542
+citizen_id : 36324
+
+pothole_id : 9305
+pothole_address : 42nd St
+size : 2.0
+location : middle
+district : 3
+repair_priority : LOW
+
+repair_crew_id : 723
+num_people : 7
+equipment_used : 299.99
+hours_worked : 7
+hole_status : work-in-progress
+material_used : 99
+repair_cost : 1,455,251.49
+work_id : 37721

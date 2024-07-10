@@ -1,0 +1,33 @@
+import random
+
+class public_works:
+    random_work_id = random.randint(0,99999)
+    def __init__(self, 
+                 repair_crew_id, 
+                 num_people, 
+                 equipment_used, 
+                 hours_worked, 
+                 hole_status, # work-in-progress, repaired, temp_repair, or not_repaired.
+                 material_used, # amount of filler material used.
+                 repair_cost=0, # hours_worked * num_people * material_used * equipment_used.
+                 work_id=random_work_id):
+        self.repair_crew_id = repair_crew_id         
+        self.num_people = num_people 
+        self.equipment_used = equipment_used 
+        self.hours_worked = hours_worked 
+        self.hole_status = hole_status   
+        self.material_used = material_used        
+        self.repair_cost = repair_cost
+        self.work_id = work_id    
+        self.get_repair_cost()                 
+
+    # Calculate the total repair cost.
+    def get_repair_cost(self):
+        self.repair_cost = (
+            self.hours_worked * 
+            self.num_people * 
+            self.material_used * 
+            self.equipment_used)
+        
+        # Formatting the cost to have commas every 3 digits.
+        self.repair_cost = '{:,}'.format(self.repair_cost)
