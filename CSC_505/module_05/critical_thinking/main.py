@@ -8,78 +8,83 @@ import random
 # Main driver file.
 #
 # Usage:
-#   $ python main.py
-#   # OR
 #   $ make report
 # ------------------------------------------------------------------
-# CITIZEN OBJECT 
 UPPER_LIMIT = 9999
-# Assign a random name.
-names = ["Jane Doe", "John Doe"]
-name = names[random.randint(0, len(names)-1)]
-
-# Assign a random phone number.
-phone_number = "(" + str(random.randint(100, 999)) + ")"
-phone_number += str(random.randint(100, 999)) + "-"
-phone_number += str(random.randint(1000, UPPER_LIMIT))
-
-# Assign a random street address.
 directions = [" North", " South", " East", " West"]
-personal_address = str(random.randint(100, UPPER_LIMIT))
-personal_address += directions[random.randint(0, len(directions)-1)]
-personal_address += " Street"
 
-# Load parameters into the citizen object.
-person = citizen.citizen(name,
-                         phone_number, 
-                         personal_address)
+# Builds and return a citizen class object.
+def get_person():
+    # Assign a random name.
+    names = ["Jane Doe", "John Doe"]
+    name = names[random.randint(0, len(names)-1)]
 
-# POTHOLE OBJECT
-# Assign a random pothole size.
-size = random.randint(0, 9)
+    # Assign a random phone number.
+    phone_number = "(" + str(random.randint(100, 999)) + ")"
+    phone_number += str(random.randint(100, 999)) + "-"
+    phone_number += str(random.randint(1000, UPPER_LIMIT))
 
-# Assign a pothole location.
-locations = ["curb", "middle", "etc"]
-location = locations[random.randint(0, len(locations)-1)]
+    # Assign a random street address.
+    personal_address = str(random.randint(100, UPPER_LIMIT))
+    personal_address += directions[random.randint(0, len(directions)-1)]
+    personal_address += " Street"
 
-# Assign a random pothole street address.
-pothole_address = str(random.randint(100, UPPER_LIMIT))
-pothole_address += directions[random.randint(0, len(directions)-1)]
-pothole_address += " Street"
+    # Load parameters into the citizen object.
+    person = citizen.citizen(name,
+                            phone_number, 
+                            personal_address)
+    return person
 
-# Load and build the pothole class object.
-hole = pothole.pothole(size,
-                       pothole_address,
-                       location)
+# Builds and return a pothole class object.
+def get_pothole():
+    # Assign a random pothole size.
+    size = random.randint(1, 10)
 
-# PUBLIC WORKS OBJECT
-# Assign a random work crew number.
-repair_crew_id = random.randint(0, UPPER_LIMIT)
+    # Assign a pothole location.
+    locations = ["curb", "middle", "etc"]
+    location = locations[random.randint(0, len(locations)-1)]
 
-# Number of workers involved.
-num_people = random.randint(1, 25)
+    # Assign a random pothole street address.
+    pothole_address = str(random.randint(100, UPPER_LIMIT))
+    pothole_address += directions[random.randint(0, len(directions)-1)]
+    pothole_address += " Street"
 
-# Equipment used with rate per hour.
-equipment_used = random.random()*100
-equipment_used = float('%.2f'%equipment_used)
+    # Load and build the pothole class object.
+    hole = pothole.pothole(size,
+                        pothole_address,
+                        location)
+    return hole
 
-# Total number of hours worked fixing the pothole.
-hours_worked = random.randint(32, 40)
+# Builds and returns a public works class object.
+def get_work_order():
+    # Assign a random work crew number.
+    repair_crew_id = random.randint(0, UPPER_LIMIT)
 
-# Assign a pothole status option.
-hole_status_options = ["work-in-progress", "repaired", "temporary fix", "not started"]
-hole_status = hole_status_options[random.randint(0, len(hole_status_options)-1)]
+    # Number of workers involved.
+    num_people = random.randint(1, 25)
 
-# Total amount of filler material used.
-material_used = random.randint(1, 99) 
+    # Equipment used with rate per hour.
+    equipment_used = random.random()*100
+    equipment_used = float('%.2f'%equipment_used)
 
-# Load and build the public works object.
-work_order = public_works.public_works(repair_crew_id, 
-                                       num_people, 
-                                       equipment_used, 
-                                       hours_worked, 
-                                       hole_status, 
-                                       material_used)
+    # Total number of hours worked fixing the pothole.
+    hours_worked = random.randint(32, 40)
+
+    # Assign a pothole status option.
+    hole_status_options = ["work-in-progress", "repaired", "temporary fix", "not started"]
+    hole_status = hole_status_options[random.randint(0, len(hole_status_options)-1)]
+
+    # Total amount of filler material used.
+    material_used = random.randint(1, 99) 
+
+    # Load and build the public works object.
+    work_order = public_works.public_works(repair_crew_id, 
+                                        num_people, 
+                                        equipment_used, 
+                                        hours_worked, 
+                                        hole_status, 
+                                        material_used)
+    return work_order
 
 # Outputs a class object's variable names along with their values.
 def get_attributes(class_object, file):
@@ -103,7 +108,7 @@ def get_attributes(class_object, file):
         output_string += "\n"
     
     # Display output string and write to file.
-    print(output_string)
+    # print(output_string)
     file.write(output_string)
 
 # Main driver function.
@@ -123,8 +128,12 @@ def main():
     # Build and assign a work ticket number.
     ticket_info = "\nTICKET NUMBER: "
     ticket_info += str(ticket_number) + "\n"
-    print(ticket_info)
+    # print(ticket_info)
     file.write(ticket_info)
+
+    person = get_person()
+    hole = get_pothole()
+    work_order = get_work_order()
     
     # Get all the variables from each class object.
     get_attributes(person, file)

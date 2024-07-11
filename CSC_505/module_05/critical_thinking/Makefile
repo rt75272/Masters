@@ -4,13 +4,7 @@
 # Streamlines running multiple terminal commands.
 #
 # Usage:
-#   $ make
-#   # OR
-#	$ make all
-#	# OR
-#   $ make report
-#	OR
-#	$ make clean
+#   $ make <target>
 # ------------------------------------------------------------------
 # Runs the main python file.
 all:
@@ -25,4 +19,4 @@ report: all
 clean: all
 	@rm *.txt
 	@rm -rf __pycache__/
-	@ls
+	@ls -al
