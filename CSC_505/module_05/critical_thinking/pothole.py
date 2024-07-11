@@ -1,3 +1,4 @@
+import helper
 import random
 # ------------------------------------------------------------------ 
 # Pothole.
@@ -12,7 +13,7 @@ import random
 # ------------------------------------------------------------------
 class pothole:
     # Assign a random pothole id number.
-    random_pothole_id = random.randint(0, 99999)
+    random_pothole_id = helper.get_id_number()
     
     # Constructor function.
     def __init__(self,  

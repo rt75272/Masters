@@ -1,4 +1,4 @@
-import random
+import helper
 # ------------------------------------------------------------------ 
 # Citizen.
 #
@@ -12,7 +12,7 @@ import random
 # ------------------------------------------------------------------
 class citizen:
     # Assign a random citizen id number.
-    random_citizen_id = random.randint(0, 99999)
+    random_citizen_id = helper.get_id_number()
     
     # Constructor function.
     def __init__(self, 

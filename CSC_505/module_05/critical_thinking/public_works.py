@@ -1,4 +1,4 @@
-import random
+import helper
 # ------------------------------------------------------------------ 
 # Public Works.
 #
@@ -15,7 +15,7 @@ import random
 # ------------------------------------------------------------------
 class public_works:
     # Assign a random work id number.
-    random_work_id = random.randint(0, 99999)
+    random_work_id = helper.get_id_number()
     
     # Constructor function.
     def __init__(self, 
