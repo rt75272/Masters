@@ -131,6 +131,7 @@ def main():
     # print(ticket_info)
     file.write(ticket_info)
 
+    # Build and assign class objects.
     person = get_person()
     hole = get_pothole()
     work_order = get_work_order()
