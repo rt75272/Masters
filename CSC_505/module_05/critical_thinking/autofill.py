@@ -11,6 +11,7 @@ import random
 #   $ import auto_generate
 # ------------------------------------------------------------------
 UPPER_LIMIT = 9999
+LOW = 100
 directions = [" North", " South", " East", " West"]
 
 # Builds and return a citizen class object.
@@ -20,12 +21,12 @@ def get_person():
     name = names[random.randint(0, len(names)-1)]
 
     # Assign a random phone number.
-    phone_number = "(" + str(random.randint(100, 999)) + ")"
-    phone_number += str(random.randint(100, 999)) + "-"
+    phone_number = "(" + str(random.randint(LOW, 999)) + ")"
+    phone_number += str(random.randint(LOW, 999)) + "-"
     phone_number += str(random.randint(1000, UPPER_LIMIT))
 
     # Assign a random street address.
-    personal_address = str(random.randint(100, UPPER_LIMIT))
+    personal_address = str(random.randint(LOW, UPPER_LIMIT))
     personal_address += directions[random.randint(0, len(directions)-1)]
     personal_address += " Street"
 
@@ -45,7 +46,7 @@ def get_pothole():
     location = locations[random.randint(0, len(locations)-1)]
 
     # Assign a random pothole street address.
-    pothole_address = str(random.randint(100, UPPER_LIMIT))
+    pothole_address = str(random.randint(LOW, UPPER_LIMIT))
     pothole_address += directions[random.randint(0, len(directions)-1)]
     pothole_address += " Street"
 
