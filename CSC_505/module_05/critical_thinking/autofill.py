@@ -10,8 +10,8 @@ import random
 # Usage:
 #   $ import auto_generate
 # ------------------------------------------------------------------
-UPPER_LIMIT = 9999
 LOW = 100
+UPPER_LIMIT = 9999
 directions = [" North", " South", " East", " West"]
 
 # Builds and return a citizen class object.
