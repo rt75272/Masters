@@ -1,154 +1,140 @@
-import random
-import math
+# -----------------------------------------------------------------------------
+# Numbers To Text
+#
+# Takes in a numerical check amount and converts the numeric amount into a 
+# string representation. 
+#
+# Usage:
+#   $ python check.py
+#   [follow prompt to complete program]
+# -----------------------------------------------------------------------------
+# Set the maximum allowed digit to one trillion.
+MAX = 1000000000000
 
-ones = [
-    "zero",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine"
-]
+# Main driver function.
+def main():
+    # Loop til a valid input is entered.
+    while True:
+        try:
+            # Get the check amount.
+            amount = float(input("Enter the check amount: "))
+            
+            # Check for a value.
+            if amount <= 0:
+                raise ValueError("Amount must be greater than zero.")
+            # Check for numbers over a trillion.
+            elif amount > MAX:  
+                raise ValueError("Amount cannot exceed a trillion.")
+            break
+        # Catch invalid input data types.
+        except ValueError as ex:
+            print("Invalid input type:", ex)
 
-teens = [
-    "ten"
-    "eleven", 
-    "twelve", 
-    "thirteen", 
-    "fourteen", 
-    "fifteen", 
-    "sixteen", 
-    "seventeen", 
-    "eighteen", 
-    "nineteen"
-]
+    # Break up into dollars and cents.
+    dollars, cents = divmod(amount, 1)
+    dollars = int(dollars)
+    cents = round(cents * 100)
 
-tens = [
-    "twenty", 
-    "thirty", 
-    "forty", 
-    "fifty", 
-    "sixty", 
-    "seventy", 
-    "eighty", 
-    "ninety"
-]
+    # Get the words for both dollars and cents.
+    dollar_words = get_words(dollars)
+    cent_words = get_words(cents)
 
-upper = [
-    "hundred",
-    "thousand",
-    "million",
-    "billion"
-]
+    print(clean_output(dollar_words, cent_words))
 
-def get_check():
-    check_amount = random.randint(100000000, 999999999)
-    # check_amount = 804191014
-    check_amount = str(check_amount)
-    print(check_amount)
-    return check_amount
+# Converts numbers into words using a stepwise approach.
+def get_words(digit):
+    lower = [
+        "zero", 
+        "one", 
+        "two", 
+        "three", 
+        "four", 
+        "five", 
+        "six", 
+        "seven", 
+        "eight", 
+        "nine", 
+        "ten",
+        "eleven",
+        "twelve",
+        "thirteen",
+        "fourteen",
+        "fifteen",
+        "sixteen",
+        "seventeen", 
+        "eighteen", 
+        "nineteen"
+    ]
+    tens = [
+        "",
+        "", 
+        "twenty", 
+        "thirty", 
+        "forty", 
+        "fifty", 
+        "sixty", 
+        "seventy", 
+        "eighty", 
+        "ninety"
+    ]
+    large_base = ["", "thousand", "million", "billion"]
 
-check_amount = get_check()
-n = len(str(check_amount))
-
-# Setting up 3-digit sections.
-num_sections = math.ceil(n / 3)
-
-# Feed the check amount into the n*3 sections matrix.
-sections = []
-for i in range(num_sections):
-    section = []
-    for j in range(3):
-        digit = check_amount[i+j+i*2]
-        section.append(digit)
-    sections.append(section)
-
-# Display the money matrix.
-for section in sections:
-    print(section)
-
-# Establish the base upper value.
-for i in range(num_sections):
-    for j in range(3):
-        # Grab value of the digit in question.
-        digit = int(sections[i][j])
-        print(digit)
-        # Check if not equal to 0.
-        if digit != 0 and j == 0:
-            # Output hundred.
-            print(upper[0])
-
-        # Initial check.
-        # Column 1.
-        if j == 0:
-            # Millions section.
-            if i == 0:
-                # print(upper[0])
-
-                print(upper[2])
-            # Thousands section.
-            if i == 1:
-                # print(upper[0])
-                print(upper[1])
-            # if i == 2:
-            #     print(upper[0])
-        
-        # Column 2
-        if j == 1 and digit != 0:
-            if digit != 1:
-                print(tens[digit-2])
-            # else:
-            #     print(teens[digit])
-        
-        # Column 3
-        if j == 2 and digit != 0:
-            print(ones[digit])
+    # Check for lower numbers, below 20.
+    if digit < 20:
+        ret_val = lower[digit]
+        return ret_val
     
-    print()
+    # Check for tens base.
+    elif digit < 100:
+        # Get the tens base value of the digit.
+        base_value = digit // 10
 
+        # Assign the tens using the base value.
+        ret_val = tens[base_value]
 
-# # Build up the output string.
-# total_amount = ""
-# teen = False
-# zero = False
-# for i in range(3):
-#     for j in range(3):
-#         # Check if the first digit of a row is zero.
-#         if j==0:
-#             zero_test = int(sections[i][j])
-#             if zero_test == 0:
-#                 zero = True
-#         # Check the first value of each section/row.
-#         if j==0 and i != 1:
-#             # Don't add values from upper array for a value of zero.
-#             if zero == False:
-#                 total_amount += ones[int(sections[i][j])] + " "
-#                 total_amount += upper[num_sections-(i+1)] + " "
-#         # Check for hundred thousands.
-#         if i == 1 and j == 0:
-#             total_amount += ones[int(sections[i][j])] + " "
-#             total_amount += upper[num_sections-(i+2)] + " "
-#             total_amount += upper[num_sections-(i+1)] + " "
-#         # Check for a teens value by checking for the value of 1 in the tens place.
-#         elif j==1:
-#             base = int(sections[i][j])
-#             # If a teen value.
-#             if base == 1:
-#                 total_amount += teens[int(sections[i][j])+2] + " "
-#                 teen = True
-#             # If not a teen value.
-#             else:
-#                 total_amount += tens[int(sections[i][j])-2] + " "
-#         # Add the final digit if it is not part of a teen value.
-#         elif j==2 and teen != True and int(sections[i][j]) != 0:
-#             total_amount += ones[int(sections[i][j])] + " "
-        
-# total_amount += "dollars" 
+        # Check for a remainder. 
+        if digit % 10 != 0:
+            # Grab the lower digit with the remainder.
+            ret_val += " " + lower[digit % 10]
+        return ret_val
+    
+    # Check for hundreds.
+    elif digit < 1000:
+        # Get the hundreds base value of the digit.
+        base_value = digit // 100
 
+        # Assign the hundreds using the base value.
+        ret_val = lower[base_value]
+        ret_val += " hundred " 
 
-# print(total_amount)
+        # Check for a remainder. 
+        if digit % 100 != 0:
+            # Call the function again with the remainder.
+            ret_val += get_words(digit % 100 )
+        return ret_val
+    
+    # Check for thousands or higher.
+    else:
+        for index, element in enumerate(large_base):
+            # Check for less than a thousand, then a million, then a billion.
+            if digit < 1000 ** (index + 1):
+                # Call the function again with the largest base value.
+                ret_val = get_words(digit // (1000 ** index))
+                # Assign the words.
+                ret_val += " " + element + " "
+                # Check for a remainder. 
+                if digit % (1000 ** index) != 0:
+                    # Call the function again with the remainder.
+                    ret_val += get_words(digit % (1000 ** index))
+                return ret_val
+        return "Maximum size exceeded"
 
+# Clean up and return the final output. 
+def clean_output(dollars, cents):
+    dollars = dollars.capitalize()
+    ret_val = f"{dollars} dollars and {cents} cents."
+    return ret_val
+
+# Pushing the big red button.
+if __name__ == "__main__":
+    main()
