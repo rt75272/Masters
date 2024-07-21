@@ -19,7 +19,7 @@ def main():
             # Get the check amount.
             amount = float(input("Enter the check amount: "))
             
-            # Check for a value.
+            # Check for a positive value.
             if amount <= 0:
                 raise ValueError("Amount must be greater than zero.")
             # Check for numbers over a trillion.
@@ -39,9 +39,11 @@ def main():
     dollar_words = get_words(dollars)
     cent_words = get_words(cents)
 
-    print(clean_output(dollar_words, cent_words))
+    # Grab and display the cleaned up final output.
+    final_output = clean_output(dollar_words, cent_words)
+    print(final_output)
 
-# Converts numbers into words using a stepwise approach.
+# Converts and returns numbers into words using a stepwise approach.
 def get_words(digit):
     lower = [
         "zero", 
@@ -110,7 +112,7 @@ def get_words(digit):
         # Check for a remainder. 
         if digit % 100 != 0:
             # Call the function again with the remainder.
-            ret_val += get_words(digit % 100 )
+            ret_val += get_words(digit % 100)
         return ret_val
     
     # Check for thousands or higher.
