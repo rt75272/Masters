@@ -1,0 +1,13 @@
+﻿Data Structures and Algorithms
+Both data structures and algorithms are crucial for processing data. However, even though they both serve roughly the same overall goal they do possess slightly different functionality. A data structure is a way of organizing and storing data. Whereas, an algorithm is a step-by-step procedure to solve a problem. Furthermore, algorithms can be used to access and use the information stored in a data structure. For example, one might use an array to store data, and then use a linear search algorithm to locate certain elements within the array. Thus, data structures and algorithms, although different, work closely together in order to achieve a specific goal.
+Data structure:
+          # Array to store data.
+    arr = [3, 42, 0, 5, 7, 99, -234]
+Algorithm:
+    # Algorithm to locate a given target within an array of n elements.
+    def linear_search(arr, n, target):
+        for i in range(0, n):
+            if(arr[i] == target):
+                return i
+        return -1
+
