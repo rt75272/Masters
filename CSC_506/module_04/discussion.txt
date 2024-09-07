@@ -1,0 +1,26 @@
+﻿Arrays
+Characteristics:
+    • Fixed Size: The size of an array is defined when it is created and cannot be changed dynamically.
+    • Contiguous Memory: Arrays store elements in contiguous memory locations.
+    • Direct Access: Elements can be accessed directly using indices, providing constant-time access, i.e., O(1) time complexity for read operations.
+Advantages:
+    1. Fast Access: Direct access to elements using indices allows for very fast read operations.
+    2. Cache Performance: Because elements are stored contiguously, arrays generally have better cache locality, leading to potentially better performance in some scenarios.
+    3. Simplicity: Arrays are simpler to implement and use, making them straightforward for many applications.
+    4. Efficient Memory Use: Arrays have no overhead beyond the data they store; they don't require extra memory for pointers or metadata.
+Disadvantages:
+    1. Fixed Size: Once created, the size of the array cannot be changed without creating a new array and copying data, which can be inefficient.
+    2. Insertion/Deletion: Inserting or deleting elements (other than at the end) requires shifting elements, which can be time-consuming (O(n) in the worst case).
+Linked Lists
+Characteristics:
+    • Dynamic Size: Linked lists can grow and shrink dynamically, as elements (nodes) are added or removed.
+    • Non-Contiguous Memory: Nodes in a linked list are scattered in memory and are connected via pointers.
+    • Sequential Access: To access an element, you must traverse the list from the head node to the desired position.
+Advantages:
+    1. Dynamic Size: Linked lists can easily grow or shrink in size, which is useful when the size of the data structure is not known in advance or changes frequently.
+    2. Efficient Insertions/Deletions: Inserting or deleting nodes can be done in constant time (O(1)) if you have a reference to the location (or node) where the insertion/deletion should occur, though you may need O(n) to find the location.
+    3. Flexibility: No need to allocate memory in advance, which can be beneficial when managing memory dynamically.
+Disadvantages:
+    1. Memory Overhead: Each node requires additional memory for storing pointers (addresses), which increases the overall memory consumption.
+    2. No Direct Access: Accessing an element requires traversal from the head node, which can be inefficient (O(n) time complexity for access operations).
+    3. Cache Performance: Non-contiguous memory allocation can result in poor cache performance compared to arrays.
