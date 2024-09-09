@@ -1,7 +1,11 @@
 import bubble
+import numpy
 
 def main():
-    x = [5, 3, 1, 0, 42]
+    x = numpy.random.randint(100, size=(1000))
+
+    # for i in range(999):
+    #     x.append(random.randint(0,999))
 
     bubbler = bubble.BubbleSort()
 
