@@ -1,7 +1,10 @@
+# Bubble sort object.
 class BubbleSort:
+    # Constructor.
     def __init__(self):
         pass
 
+    # Standard bubble sort.
     def bubble_sort(self, arr):
         n = len(arr)
 
