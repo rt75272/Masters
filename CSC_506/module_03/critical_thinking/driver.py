@@ -5,7 +5,7 @@ import time
 # Main driver function.
 def main():
     # Array of random integers to be sorted.
-    x = numpy.random.randint(100, size=(10000))
+    x = get_random_arr()
     
     # Establish bubble sort object.
     bubbler = bubble.BubbleSort()
@@ -22,6 +22,11 @@ def main():
     # Calculate bubble sort runtime. 
     bubble_time = bubble_end - bubble_start
     print(bubble_time)
+
+# Generate and returns an array of random integers.
+def get_random_arr():
+    arr = numpy.random.randint(100, size=(10000))
+    return arr
 
 # Big red button.
 if __name__ == "__main__":
