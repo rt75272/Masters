@@ -74,15 +74,18 @@ class HashTable:
 
     # Printer function.
     def __repr__(self):
-        ret_val = "" # To be our final output string.
-        items = [] # List of items to be printed.
+        items = [] # List to be our final output after processing all bucket_items.
         # Enumerate through the hash table.
         for i, head in enumerate(self.table):
             current = head # Assign the head node to current.
-            # Keep looping while nodes exists.
-            while current:
-                items.append(f'{current.key}: {current.value}') # Add key-pair value to our array of items to be printed.
-                current = current.next # Assign the next node to current.
-        # Build and return the final output string.
-        ret_val = '{' + ','.join(items) + '}'
-        return ret_val
+            # Check for a current entry.
+            if current:
+                bucket_items = [] # Stores string representations of the key-value pairs. Ensures all pairs are grouped together.
+                # Keep looping while nodes exists.
+                while current:
+                    # Add patient entries for easy display.
+                    bucket_items.append(f'{current.key}: {{Name: {current.value["name"]}, Age: {current.value["age"]}}}')
+                    current = current.next # Assign the next node to current.
+                items.append(f'\n'.join(bucket_items)) # Combine the items and bucket_items together for a cleaner display.
+        # Build and return the final output.
+        return '\n'.join(items) if items else 'Empty Hash Table'
