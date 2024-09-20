@@ -17,6 +17,7 @@ from matplotlib.animation import FuncAnimation
 #
 # Usage:
 #   $ python dirver.py
+#   $ [follow prompt to complete program]
 # -----------------------------------------------------------------------------
 plt.style.use('dark_background') # Enable dark mode for the sorting animation.
 
@@ -68,22 +69,28 @@ def main():
     selection_thread.join()
     animate_all_sorts(bubbler, merger, quicky, inserter, selector) # Run the entire sorting animation.
     # Display sorting algorithms.
-    print("\n\tFINAL SORTED RESULTS:")
-    print(f"\n\tBubble Sort:\t {bubbler.arr}")
-    print(f"\n\tMerge Sort:\t {merger.arr}")
-    print(f"\n\tQuick Sort:\t {quicky.arr}")
-    print(f"\n\tInsertion Sort:\t {inserter.arr}")  
-    print(f"\n\tSelection Sort:\t {selector.arr}")
+    print("\nFINAL SORTED RESULTS:")
+    print(f"\nBubble Sort:\n {bubbler.arr}")
+    print(f"\nMerge Sort:\n {merger.arr}")
+    print(f"\nQuick Sort:\n {quicky.arr}")
+    print(f"\nInsertion Sort:\n {inserter.arr}")  
+    print(f"\nSelection Sort:\n {selector.arr}")
 
 # Runs an animation displaying all sorting algorithms at the same time.
 def animate_all_sorts(bubbler, merger, quicky, inserter, selector):
-    fig, ax = plt.subplots(5, 1, figsize=(10, 25)) # Plotting setup.
+    fig, ax = plt.subplots(5, 1, figsize=(30, 35)) # Initial plotting setup.
+    fig.tight_layout(pad=14.0) # Space out each subplot.
+    # Subplot title styling.
+    font_size = 18
+    font_color = "white"
+    font_style = "italic"
+    font_weight = 200
     # Set titles for each respective algorithm.
-    ax[0].set_title("Bubble Sort", color='white')
-    ax[1].set_title("Merge Sort", color='white')
-    ax[2].set_title("Quick Sort", color='white')
-    ax[3].set_title("Insertion Sort", color='white')
-    ax[4].set_title("Selection Sort", color='white')
+    ax[0].set_title("Bubble Sort", color=font_color, fontstyle=font_style, weight=font_weight, size=font_size)
+    ax[1].set_title("Merge Sort", color=font_color, fontstyle=font_style, weight=font_weight, size=font_size)
+    ax[2].set_title("Quick Sort", color=font_color, fontstyle=font_style, weight=font_weight, size=font_size)
+    ax[3].set_title("Insertion Sort", color=font_color, fontstyle=font_style, weight=font_weight, size=font_size)
+    ax[4].set_title("Selection Sort", color=font_color, fontstyle=font_style, weight=font_weight, size=font_size)
     # Setup graph bars for each algorithm.
     bars_bubble = ax[0].bar(np.arange(len(bubbler.arr)), bubbler.arr, color='g')
     bars_merge = ax[1].bar(np.arange(len(merger.arr)), merger.arr, color='b')
@@ -115,6 +122,9 @@ def animate_all_sorts(bubbler, merger, quicky, inserter, selector):
     # Sorting Animaiton.
     total_frames = max(len(frames["bubble"]), len(frames["merge"]), len(frames["quick"]), len(frames["insertion"]), len(frames["selection"]))  # Update total frames.
     anim = FuncAnimation(fig, update_all, frames=total_frames, repeat=False)
+    # Open animation in fullscreen.
+    manager = plt.get_current_fig_manager()
+    manager.full_screen_toggle()
     # Automatically close the animation figure.
     plt.show(block=False)
     plt.pause(len(frames["bubble"])*0.25) # Pause time based on bubble sort cause its the slowest.
@@ -129,7 +139,7 @@ def calculate_runtime(algorithm):
 
 # Generate and returns an array of random integers.
 def get_random_arr():
-    n = 30 # Number of elements to be randomly generated and sorted.
+    n = int(input("Enter number of elements(integer): ")) # Number of elements to be randomly generated and sorted.
     print(f"Random array size(n): {n}")
     arr = np.random.randint(100, size=(n)) # Array of randomly generated integers.
     return arr
