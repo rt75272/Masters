@@ -1,0 +1,11 @@
+﻿What is Linux currently doing?
+	With Linux being massively widespread, it needs constant maintenance to keep things running smoothly. One way to help with this is automated testing. Linux is using a kernel test robot to conduct tests for various packages under certain configurations. The packages are often dependencies, therefore, it is critical that they are ready to provide the required support. Which ensures crucial packages run correctly in a wide range of hardware setups and environments. Some of the packages which are often dependencies include packages such as various gcc versions and clang versions.  
+
+What is the improvement that is being proposed?
+	The improvement is a simple fix which includes removing some of the previously implemented code. Specifically, the request is to remove remaining _PAGE_* macros from several configuration files. Furthermore, the debugging tweak is needed for several different processor infrastructures. For example, arm, arm64, i386, x86_64, etc. Which could be completed with a script followed by the automated testing to check for successful builds.
+
+Why is that an improvement? (Or explain why it is not.)
+	This is an improvement because it debugs foundational source code by automatically removing old code that is no longer needed. Followed by automated testing to ensure each configuration builds successfully. Thus, enabling the debugged foundational code to seamlessly integrate with new hardware, environments, and applications. Additionally, the use of automation helps to optimize the maintenance process for Linux kernals.
+
+Message Thread
+https://lkml.org/lkml/2024/10/17/5
