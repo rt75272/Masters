@@ -1,2 +1,2 @@
 # CSC_502
-Ethical Leadership in Software Development.
+### _Ethical Leadership in Software Development_

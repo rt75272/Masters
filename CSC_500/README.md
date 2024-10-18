@@ -1,2 +1,2 @@
 # CSC500
-Coursework for CSC500 @ CSU Global.
+### _Principles of Programming_
