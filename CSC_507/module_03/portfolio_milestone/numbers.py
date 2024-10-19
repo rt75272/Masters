@@ -19,10 +19,7 @@ filename = "file2.txt" # Python output file.
 # Formats and displays the final output.
 def printer(time):
 	time = round(time, 4) # Convert to have four decimal places.
-	print(
-		"Python runtime: " 
-		+ str(time) + " seconds",
-	) 
+	print("Python runtime: " + str(time) + " seconds") 
 
 # Loops through n times and generates n random integers, which are saved to file.
 def looper():
@@ -33,7 +30,6 @@ def looper():
 		x = str(x) + "\n" # Convert the variable x to a string with a newline. 
 		file.write(x) # Append the value of x to our file.
 	file.close() # Close the output file.
-	# print("py thread")
 
 # Break up the looper function into several threads.
 def multithread():

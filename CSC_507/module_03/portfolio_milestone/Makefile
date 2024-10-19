@@ -1,5 +1,3 @@
-SHELL := /bin/zsh
-.PHONY:	bash
 # ---------------------------------------------------------------------------------------
 # Makefile Number Generator Automation.
 #
@@ -12,7 +10,6 @@ SHELL := /bin/zsh
 # Store filenames in variables.
 file1 = file1.txt # BASH output file.
 file2 = file2.txt # Python output file.
-num_cores=$(nproc --all)
 
 # Runs all targets in order.
 all: start init bash python display clean end

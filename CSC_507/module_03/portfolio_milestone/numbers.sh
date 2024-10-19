@@ -16,12 +16,8 @@ filename=file1.txt # BASH output file.
 
 # Generates n random integers and adds to file.
 looper() {
-	temp_file="temp_$1.txt"
-
-    # Using /dev/urandom to generate faster random numbers.
-    # od converts random bytes into integers (1 per line), and we limit output to exactly $n_per_core numbers.
-    head -c $((n_per_core * 16)) /dev/urandom | od -An -N$((n_per_core * 16)) | awk '{print $1}' > "$temp_file"
-    # echo "Thread $1 completed."
+	temp_file="temp_$1.txt" # Temp file for storage.
+	jot -r $n_per_core > "$temp_file" # Generate n_per_core random numbers and store in temp_file.
 }
 
 # Displays the looper's runtime.
@@ -33,11 +29,12 @@ printer() {
 
 # Split looper's processing up into the number of available cpu cores.
 multithread() {
+	# Loop through the amount of cores and give each a looper task.
 	for i in $(seq 1 $num_cores); do
-		looper $i &
+		looper $i & # Run looper in its own thread.
 	done
-	wait
-    cat temp_*.txt > "$filename"
+	wait # Wait for all threads to complete execution.
+    cat temp_*.txt > "$filename" # Move temp files content into a single output file.
 }
 
 # Main driver function.
