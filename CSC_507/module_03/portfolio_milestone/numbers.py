@@ -1,7 +1,6 @@
 import random
 import time
 import multiprocessing
-from termcolor import colored, cprint
 # ---------------------------------------------------------------------------------------
 # Python Number Generator.
 #
@@ -20,11 +19,10 @@ filename = "file2.txt" # Python output file.
 # Formats and displays the final output.
 def printer(time):
 	time = round(time, 4) # Convert to have four decimal places.
-	print(colored(
+	print(
 		"Python runtime: " 
 		+ str(time) + " seconds",
-		"cyan", attrs=["bold"]) 
-	)
+	) 
 
 # Loops through n times and generates n random integers, which are saved to file.
 def looper():
@@ -35,13 +33,15 @@ def looper():
 		x = str(x) + "\n" # Convert the variable x to a string with a newline. 
 		file.write(x) # Append the value of x to our file.
 	file.close() # Close the output file.
+	# print("py thread")
 
 # Break up the looper function into several threads.
 def multithread():
 	# Loop through the number of cpu cores and divide looper up into each core.
 	for i in range(num_cores):
-		process = multiprocessing.Process(target=looper)
-		process.start()
+		process = multiprocessing.Process(target=looper) # Init a new thread.
+		process.start() # Start the new thread.
+	process.join() # Wait for all the threads to finish.
 
 # Main driver function.
 def main():
@@ -54,6 +54,7 @@ def main():
 # The big red activation button.
 if __name__ == "__main__":
 	main()
+	print("numbers.py complete!")
 
 # type: ignore ----> Suppress vvscode warnings.
 

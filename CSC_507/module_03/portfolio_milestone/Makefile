@@ -39,25 +39,13 @@ init:
 bash:
 	@echo "Running numbers.sh..." | lolcat
 	@chmod +x numbers.sh
-	@bash -c '\
-		x=testing; \
-		for i in 1 2 3 4 5 6 7 8; do \
-			bash numbers.sh | lolcat & \
-			pids="$$pids $$!"; \
-		done; \
-		for pid in $$pids; do \
-			echo $$x; \
-			$x=$$pid; \
-			wait $$pid; \
-			echo $$x; \
-		done;'
+	@bash numbers.sh | lolcat
 	@echo "numbers.sh complete!" | lolcat
 
 # Runs the Python numbers file.
 python:
 	@echo "\nRunning numbers.py..." | lolcat
 	@python3 numbers.py | lolcat
-	@echo "numbers.py complete!" | lolcat
 
 # Display the number of lines in each file.
 display:
