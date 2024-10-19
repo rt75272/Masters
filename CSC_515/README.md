@@ -1,2 +1,2 @@
 # CSC_515
-### _Foundations of Computer Vision_
+_Foundations of Computer Vision_

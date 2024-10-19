@@ -1,2 +1,2 @@
 # CSC_500
-### _Principles of Programming_
+_Principles of Programming_
