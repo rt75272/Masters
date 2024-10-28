@@ -10,40 +10,43 @@ import multiprocessing
 # Usage:
 #	$ python numbers.py
 # ---------------------------------------------------------------------------------------
-# Initial setup.
-n = 1000000 # Upper limit.
-num_cores = multiprocessing.cpu_count() # Get the number of cpu cores available.
-n = n // num_cores # Divide the total n into the number of cores. Each core will run a chunk of n.
-filename = "file2.txt" # Python output file.
+n = 1000000  # Total number of random integers to generate.
+num_cores = multiprocessing.cpu_count()  # Get the number of CPU cores available.
+filename = "file2.txt"  # Python output file.
 
 # Formats and displays the final output.
-def printer(time):
-	time = round(time, 4) # Convert to have four decimal places.
-	print("Python runtime: " + str(time) + " seconds") 
+def printer(duration):
+	duration = round(duration, 4)  # Convert to have four decimal places.
+	print("Python runtime: " + str(duration) + " seconds") 
 
-# Loops through n times and generates n random integers, which are saved to file.
-def looper():
-	file = open(filename, "a") # Creates(if needed) and opens the file to be appended to.
-	# Loop from zero to one million.
-	for i in range(n):
-		x = random.randint(0, n) # Generate a random integer between 0 and n.
-		x = str(x) + "\n" # Convert the variable x to a string with a newline. 
-		file.write(x) # Append the value of x to our file.
-	file.close() # Close the output file.
+# Loops through n times and generates random integers, which are saved to file.
+def looper(start, count):
+	with open(filename, "a") as file:  # Use 'with' for better file handling.
+		for _ in range(count):
+			x = random.randint(0, n)  # Generate a random integer between 0 and n.
+			file.write(f"{x}\n")  # Write the random number with a newline.
 
-# Break up the looper function into several threads.
+# Break up the looper function into several processes.
 def multithread():
-	# Loop through the number of cpu cores and divide looper up into each core.
+	processes = []
+	chunk_size = n // num_cores  # Calculate chunk size for each core
+	remainder = n % num_cores  # Calculate remainder to distribute
 	for i in range(num_cores):
-		process = multiprocessing.Process(target=looper) # Init a new thread.
-		process.start() # Start the new thread.
-	process.join() # Wait for all the threads to finish.
+		count = chunk_size  # Base count for each process
+		if i < remainder:
+			count += 1  # Distribute the remainder
+		process = multiprocessing.Process(target=looper, args=(i, count))  # Pass count to looper.
+		process.start()  # Start the new process.
+		processes.append(process)  # Keep track of the processes.
+
+	for process in processes:
+		process.join()  # Wait for all processes to finish.
 
 # Main driver function.
 def main():
-	start_time = time.time() # Start the runtime timer.
+	start_time = time.time()  # Start the runtime timer.
 	multithread()
-	end_time = time.time() # End the runtime timer.
+	end_time = time.time()  # End the runtime timer.
 	duration = end_time - start_time
 	printer(duration)
 
@@ -51,6 +54,3 @@ def main():
 if __name__ == "__main__":
 	main()
 	print("numbers.py complete!")
-
-# type: ignore ----> Suppress vvscode warnings.
-
