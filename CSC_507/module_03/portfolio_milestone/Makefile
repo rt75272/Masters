@@ -17,15 +17,19 @@ all: start init bash python display clean end
 # Displays starting message.
 start:
 	@echo "=============================================="
-	@echo "\t\tINITIATE"
+	@echo "INITIATE"
 	@echo "=============================================="
-	@echo "\n\n\n"
+	@echo ""
+	@echo ""
+	@echo ""
 
 # Displays ending message.
 end:
-	@echo "\n\n\n"
+	@echo ""
+	@echo ""
+	@echo ""
 	@echo "=============================================="
-	@echo "\t\tCOMPLETE"
+	@echo "COMPLETE"
 	@echo "=============================================="
 
 # Displays the starting message.
@@ -41,16 +45,17 @@ bash:
 
 # Runs the Python numbers file.
 python:
-	@echo "\nRunning numbers.py..." | lolcat
+	@echo "Running numbers.py..." | lolcat
 	@python3 numbers.py | lolcat
 
 # Display the number of lines in each file.
 display:
-	@echo "\n\n\n------------LINES & WORDS PER FILE-----------" | lolcat 
+	@echo ""
+	@echo ""
+	@echo "------------LINES & WORDS PER FILE-----------" | lolcat 
 	@echo "file1.txt: $$(wc -lw < $(file1))" | lolcat
 	@echo "file2.txt: $$(wc -lw < $(file2))" | lolcat
 
 # Remove old output files.
 clean:
 	@rm *.txt
-
