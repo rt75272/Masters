@@ -21,24 +21,25 @@ def printer(duration):
 
 # Loops through n times and generates random integers, which are saved to file.
 def looper(start, count):
-	with open(filename, "a") as file:  # Use 'with' for better file handling.
-		for _ in range(count):
+	with open(filename, "a") as file:
+		for i in range(count):
 			x = random.randint(0, n)  # Generate a random integer between 0 and n.
-			file.write(f"{x}\n")  # Write the random number with a newline.
+			file.write(f"{x}\n")  # Add the random number with a newline, to the file.
 
 # Break up the looper function into several processes.
 def multithread():
 	processes = []
-	chunk_size = n // num_cores  # Calculate chunk size for each core
-	remainder = n % num_cores  # Calculate remainder to distribute
+	chunk_size = n // num_cores  # Calculate chunk size for each core.
+	remainder = n % num_cores  # Calculate remainder to distribute.
+	# Loop through all cores and assign each a subset of the overall task.
 	for i in range(num_cores):
-		count = chunk_size  # Base count for each process
+		count = chunk_size  # Base count for each process.
 		if i < remainder:
-			count += 1  # Distribute the remainder
-		process = multiprocessing.Process(target=looper, args=(i, count))  # Pass count to looper.
-		process.start()  # Start the new process.
+			count += 1
+		process = multiprocessing.Process(target=looper, args=(i, count))  # Declare a new thread/process.
+		process.start()  # Start the new process with a mission to produce its assigned number of integers to produce.
 		processes.append(process)  # Keep track of the processes.
-
+	# Loop through all separate running processes.
 	for process in processes:
 		process.join()  # Wait for all processes to finish.
 

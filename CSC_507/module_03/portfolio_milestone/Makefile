@@ -12,49 +12,46 @@ file1 = file1.txt # BASH output file.
 file2 = file2.txt # Python output file.
 
 # Runs all targets in order.
-all: start init bash python display clean end
+all: start init bash python close display clean end
 
 # Displays starting message.
 start:
-	@echo "=============================================="
-	@echo "INITIATE"
-	@echo "=============================================="
-	@echo ""
-	@echo ""
-	@echo ""
+	@echo "=========================================" | lolcat -h 0.05
+	@echo -e "|\t\tINITIATE\t\t|" | lolcat -h 0
+	@echo -e "=========================================\n\n\n" | lolcat -h 0.05
 
 # Displays ending message.
 end:
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo "=============================================="
-	@echo "COMPLETE"
-	@echo "=============================================="
+	@echo -e "\n\n\n=========================================" | lolcat -h 0.05
+	@echo -e "|\t\tCOMPLETE\t\t|" | lolcat -h 0
+	@echo "=========================================" | lolcat -h 0.05
 
 # Displays the starting message.
 init:
-	@echo "------------SOURCE FILE EXECUTION------------" | lolcat
+	@echo "----------SOURCE FILE EXECUTION----------" | lolcat -h 0.075
+
+# Ending border.
+close:
+	@echo -e "-----------------------------------------\n" | lolcat -h 0.075
 
 # Runs the BASH numbers file.
 bash:
-	@echo "Running numbers.sh..." | lolcat
+	@echo "Running numbers.sh..." | lolcat -h 0.25
 	@chmod +x numbers.sh
-	@bash numbers.sh | lolcat
-	@echo "numbers.sh complete!" | lolcat
+	@bash numbers.sh | lolcat -h 0.25
+	@echo "numbers.sh complete!" | lolcat -h 0.25
 
 # Runs the Python numbers file.
 python:
-	@echo "Running numbers.py..." | lolcat
-	@python3 numbers.py | lolcat
+	@echo -e "\nRunning numbers.py..." | lolcat -h 0.25
+	@python3 numbers.py | lolcat -h 0.25
 
 # Display the number of lines in each file.
 display:
-	@echo ""
-	@echo ""
-	@echo "------------LINES & WORDS PER FILE-----------" | lolcat 
-	@echo "file1.txt: $$(wc -lw < $(file1))" | lolcat
-	@echo "file2.txt: $$(wc -lw < $(file2))" | lolcat
+	@echo -e "\n----------LINES & WORDS PER FILE---------" | lolcat -h 0.075 
+	@echo "file1.txt: $$(wc -lw < $(file1))" | lolcat -h 0.25
+	@echo "file2.txt: $$(wc -lw < $(file2))" | lolcat -h 0.25
+	@echo "-----------------------------------------" | lolcat -h 0.075
 
 # Remove old output files.
 clean:
