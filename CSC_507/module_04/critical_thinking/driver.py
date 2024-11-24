@@ -7,43 +7,31 @@ import first_fit
 # Usage:
 #   python driver.py
 # --------------------------------------------------------------------------------------------
-# Main driver function. 
+"""
+Main driver function. 
+
+Runs the first fit memory allocation simulation.
+"""
 def main():
-	# Initial memory blocks (size in MB).
-	memory_blocks = [
-		100,
-		200,
-		300,
-		400,
-		500
-	] 
-	allocator = first_fit.FirstFitMemoryAllocator(memory_blocks) # Create memory allocator instance.
-	
-	# Processes with their required memory sizes.
-	processes = [
-		(120, "P1"), 
-		(250, "P2"), 
-		(320, "P3"), 
-		(60, "P4"), 
-		(450, "P5")
-	] 
-	
-	# Allocate processes.
-	for process_size, process_id in processes:
-		if not allocator.allocate(process_size, process_id):
-			print(f"Process {process_id} could not be allocated due to insufficient memory.")
-	
-	allocator.display_memory_status() # Display memory status.
-	
-	# Deallocate some processes and display the memory status again.
+	# Initial memory blocks sizes.
+	memory_sizes = [101, 507, 222, 303, 666]
+	# Create a memory allocator with the initial memory sizes.
+	allocator = first_fit.FirstFitMemoryAllocator(memory_sizes)
+	# Display memory before allocation.
+	allocator.display_memory()
+	# Allocate memory for processes.
+	allocator.allocate("P1", 120)
+	allocator.allocate("P2", 42)
+	allocator.allocate("P3", 1)
+	allocator.allocate("P4", 3274)
+	# Display memory after allocation.
+	allocator.display_memory()
+	# Deallocate a process.
 	allocator.deallocate("P2")
-	allocator.deallocate("P3")
-	allocator.display_memory_status()
-	
-	# Try allocating another process.
-	allocator.allocate(100, "P6")
-	allocator.display_memory_status()
+	# Display memory after deallocation.
+	allocator.display_memory()
 
 # The big red activation button.
 if __name__ == "__main__":
 	main()
+
