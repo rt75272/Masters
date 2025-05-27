@@ -96,59 +96,8 @@ def main():
     nltk.download('punkt') # Required for nltk.word_tokenize, tokenizer models.
     nltk.download('wordnet') # Required for WordNetLemmatizer, WordNet database.
     lemmatizer = WordNetLemmatizer() # Initialize the lemmatizer for word normalization.
-    # Example user inputs and their associated intents for training.
-    training_data = [
-        {"intent": "greet", "text": "hello"},
-        {"intent": "greet", "text": "hi"},
-        {"intent": "greet", "text": "hey there"},
-        {"intent": "greet", "text": "good morning"},
-        {"intent": "greet", "text": "good evening"},
-        {"intent": "greet", "text": "howdy"},
-        {"intent": "greet", "text": "hey"},
-        {"intent": "greet", "text": "what's up"},
-        {"intent": "greet", "text": "greetings"},
-        {"intent": "greet", "text": "yo"},
-        {"intent": "anxiety", "text": "I feel anxious and can't sleep"},
-        {"intent": "anxiety", "text": "I'm having a panic attack"},
-        {"intent": "anxiety", "text": "My thoughts are racing"},
-        {"intent": "anxiety", "text": "I can't stop worrying"},
-        {"intent": "anxiety", "text": "I feel nervous all the time"},
-        {"intent": "anxiety", "text": "My heart is pounding and I can't relax"},
-        {"intent": "anxiety", "text": "I feel overwhelmed"},
-        {"intent": "anxiety", "text": "I can't breathe when I'm anxious"},
-        {"intent": "anxiety", "text": "I get sweaty and shaky"},
-        {"intent": "anxiety", "text": "I worry about everything"},
-        {"intent": "anxiety", "text": "I have trouble calming down"},
-        {"intent": "depression", "text": "I feel so down all the time"},
-        {"intent": "depression", "text": "Nothing feels good anymore"},
-        {"intent": "depression", "text": "I don't want to do anything"},
-        {"intent": "depression", "text": "I feel hopeless"},
-        {"intent": "depression", "text": "I have no energy"},
-        {"intent": "depression", "text": "I can't get out of bed"},
-        {"intent": "depression", "text": "I feel empty inside"},
-        {"intent": "depression", "text": "I don't enjoy things I used to"},
-        {"intent": "depression", "text": "I feel worthless"},
-        {"intent": "depression", "text": "I cry for no reason"},
-        {"intent": "adhd", "text": "I can't focus at all"},
-        {"intent": "adhd", "text": "I'm so easily distracted"},
-        {"intent": "adhd", "text": "I have trouble sitting still"},
-        {"intent": "adhd", "text": "I keep forgetting things"},
-        {"intent": "adhd", "text": "I can't finish tasks"},
-        {"intent": "adhd", "text": "My mind is always wandering"},
-        {"intent": "adhd", "text": "I lose things all the time"},
-        {"intent": "adhd", "text": "I get bored quickly"},
-        {"intent": "adhd", "text": "I interrupt people a lot"},
-        {"intent": "adhd", "text": "I can't organize my work"},
-        {"intent": "goodbye", "text": "bye"},
-        {"intent": "goodbye", "text": "see you later"},
-        {"intent": "goodbye", "text": "thanks, bye"},
-        {"intent": "goodbye", "text": "goodbye"},
-        {"intent": "goodbye", "text": "talk to you later"},
-        {"intent": "goodbye", "text": "see ya"},
-        {"intent": "goodbye", "text": "catch you later"},
-        {"intent": "goodbye", "text": "farewell"},
-        {"intent": "goodbye", "text": "I'm leaving now"},
-    ]
+    # Import training data from external file.
+    from training_data import training_data
     # Preprocess training texts and extract their labels (intents).
     # List of normalized training texts.
     texts = []
