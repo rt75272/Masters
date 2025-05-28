@@ -1,8 +1,9 @@
 import nltk
 import random
+from training_data import training_data # Training data from a separate file.
 from nltk.stem import WordNetLemmatizer 
-from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
 from sklearn.linear_model import LogisticRegression # type: ignore
+from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
 # --------------------------------------------------------------------------------------
 # Mental Health NLP Chatbot.
 #
@@ -62,32 +63,29 @@ def chatbot(lemmatizer, vectorizer, model, responses, crisis_keywords):
         "Type 'bye' to exit."
     )
     while True:
-        user_input = input("You: ").strip() # Get user input and remove whitespace.
-        # Exit the chatbot if the user types a goodbye phrase.
+        user_input = input("You: ").strip()
         if user_input.lower() in ['bye', 'exit', 'quit']:
-            print(
-                "Mental Health Bot: Take care. You're not alone."
-            )
+            print("Mental Health Bot: Take care. You're not alone.")
             break
-        # If a crisis phrase is detected, provide emergency resources.
         if is_crisis(user_input, crisis_keywords):
-            print(
-                "\nMental Health Bot: I'm really concerned about your safety."
-            )
+            print("\nMental Health Bot: I'm really concerned about your safety.")
             print(
                 "If you're thinking about hurting yourself or someone else, please call"
-                 " or text 988 — the Suicide & Crisis Lifeline. They are available "
-                 "24/7.\n"
+                " or text 988 — the Suicide & Crisis Lifeline. They are available 24/7.\n"
             )
             continue
-        # Preprocess user input and predict intent.
-        processed = preprocess(user_input, lemmatizer) # Normalize input.
-        user_vec = vectorizer.transform([processed]) # Vectorize input.
-        pred_intent = model.predict(user_vec)[0] # Predict intent label.
-        # Select a random response for the predicted intent.
-        response = random.choice(responses.get(pred_intent, [
-            "I'm not sure I understand. Could you tell me more?"
-        ]))
+        processed = preprocess(user_input, lemmatizer)
+        user_vec = vectorizer.transform([processed])
+        pred_intent = model.predict(user_vec)[0]
+        # Simple keyword-based follow-up for smarter responses.
+        if(pred_intent == "anxiety" and "sleep" in user_input.lower()):
+            response = "Sleep issues are common with anxiety. Would you like some tips for better sleep?"
+        elif(pred_intent == "depression" and "energy" in user_input.lower()):
+            response = "Low energy can be a symptom of depression. Have you found anything that helps, even a little?"
+        else:
+            response = random.choice(responses.get(pred_intent, [
+                "I'm not sure I understand. Could you tell me more?"
+            ]))
         print("Mental Health Bot:", response)
 
 def main():
@@ -95,12 +93,9 @@ def main():
     # Download required NLTK data files for tokenization and lemmatization.
     nltk.download('punkt') # Required for nltk.word_tokenize, tokenizer models.
     nltk.download('wordnet') # Required for WordNetLemmatizer, WordNet database.
-    lemmatizer = WordNetLemmatizer() # Initialize the lemmatizer for word normalization.
-    # Import training data from external file.
-    from training_data import training_data
+    lemmatizer = WordNetLemmatizer() # Initialize for word normalization.    
     # Preprocess training texts and extract their labels (intents).
-    # List of normalized training texts.
-    texts = []
+    texts = [] # List of normalized training texts.
     for example in training_data:
         processed_text = preprocess(example["text"], lemmatizer)
         texts.append(processed_text)
@@ -116,12 +111,36 @@ def main():
     model.fit(X, labels)
     # Map each intent to a list of possible bot responses.
     responses = {
-        "greet": ["Hi there! I'm here to support you. How are you feeling today?"],
-        "anxiety": ["I'm sorry you're feeling anxious. Want to talk more about it?"],
-        "depression": ["That sounds really hard. Remember you're not alone in this."],
-        "adhd": ["Many people with ADHD feel that way. Would you like to talk about "
-                "coping strategies?"],
-        "goodbye": ["Take care of yourself. I'm here whenever you need support."]
+        "greet": [
+            "Hi there! I'm here to support you. How are you feeling today?",
+            "Hello! How can I help you today?",
+            "Hey! I'm here to listen. What's on your mind?",
+            "Hi! How are you doing right now?"
+        ],
+        "anxiety": [
+            "I'm sorry you're feeling anxious. Want to talk more about it?",
+            "Anxiety can be tough. Would you like to share what's making you anxious?",
+            "It's okay to feel anxious sometimes. Do you know what triggered it?",
+            "I'm here for you. What helps you when you feel anxious?"
+        ],
+        "depression": [
+            "That sounds really hard. Remember you're not alone in this.",
+            "I'm sorry you're feeling down. Would you like to talk about it?",
+            "Depression can feel overwhelming. Is there something specific on your mind?",
+            "Thank you for sharing. What do you wish others understood about how you feel?"
+        ],
+        "adhd": [
+            "Many people with ADHD feel that way. Would you like to talk about coping strategies?",
+            "ADHD can make things challenging. What are you struggling with most right now?",
+            "You're not alone. Are there any strategies that have helped you before?",
+            "Would you like tips on focus or organization?"
+        ],
+        "goodbye": [
+            "Take care of yourself. I'm here whenever you need support.",
+            "Goodbye! Remember, you're not alone.",
+            "See you next time. Wishing you well.",
+            "Take care! Reach out whenever you need to talk."
+        ]
     }
     # List of phrases that indicate a mental health crisis.
     crisis_keywords = [
