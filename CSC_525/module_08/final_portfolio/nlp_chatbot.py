@@ -1,7 +1,7 @@
 import nltk
 import random
-from training_data import training_data # Training data from a separate file.
 from nltk.stem import WordNetLemmatizer 
+from training_data import training_data, responses, crisis_keywords
 from sklearn.linear_model import LogisticRegression # type: ignore
 from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
 # --------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ def is_crisis(text, crisis_keywords):
             return True
     return False
 
-def chatbot(lemmatizer, vectorizer, model, responses, crisis_keywords):
+def chatbot(lemmatizer, vectorizer, model, crisis_keywords):
     """Main chatbot loop.
 
     Handles user input, checks for crisis situations, predicts intent, and prints 
@@ -109,46 +109,8 @@ def main():
     # Train a logistic regression model to classify user intent.
     model = LogisticRegression()
     model.fit(X, labels)
-    # Map each intent to a list of possible bot responses.
-    responses = {
-        "greet": [
-            "Hi there! I'm here to support you. How are you feeling today?",
-            "Hello! How can I help you today?",
-            "Hey! I'm here to listen. What's on your mind?",
-            "Hi! How are you doing right now?"
-        ],
-        "anxiety": [
-            "I'm sorry you're feeling anxious. Want to talk more about it?",
-            "Anxiety can be tough. Would you like to share what's making you anxious?",
-            "It's okay to feel anxious sometimes. Do you know what triggered it?",
-            "I'm here for you. What helps you when you feel anxious?"
-        ],
-        "depression": [
-            "That sounds really hard. Remember you're not alone in this.",
-            "I'm sorry you're feeling down. Would you like to talk about it?",
-            "Depression can feel overwhelming. Is there something specific on your mind?",
-            "Thank you for sharing. What do you wish others understood about how you feel?"
-        ],
-        "adhd": [
-            "Many people with ADHD feel that way. Would you like to talk about coping strategies?",
-            "ADHD can make things challenging. What are you struggling with most right now?",
-            "You're not alone. Are there any strategies that have helped you before?",
-            "Would you like tips on focus or organization?"
-        ],
-        "goodbye": [
-            "Take care of yourself. I'm here whenever you need support.",
-            "Goodbye! Remember, you're not alone.",
-            "See you next time. Wishing you well.",
-            "Take care! Reach out whenever you need to talk."
-        ]
-    }
-    # List of phrases that indicate a mental health crisis.
-    crisis_keywords = [
-        "kill myself", "want to die", "suicide", "end it all", "hurt myself",
-        "hurt someone", "kill someone", "can't go on", "no reason to live"
-    ]
     # Start the chatbot with all required resources.
-    chatbot(lemmatizer, vectorizer, model, responses, crisis_keywords)
+    chatbot(lemmatizer, vectorizer, model, crisis_keywords)
 
 # The big red activation button.
 if __name__ == "__main__":
