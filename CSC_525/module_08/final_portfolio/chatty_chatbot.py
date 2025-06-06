@@ -115,7 +115,7 @@ def main():
         # Get and print chatbot response, then add to conversation history.
         bot_reply = get_chatbot_response(client, conversation)
         print("Chatbot:", bot_reply)
-        
+        # Append the chatbot's reply to conversation history.
         conversation.append({"role": "assistant", "content": bot_reply})
 
 # The big red activation button.
