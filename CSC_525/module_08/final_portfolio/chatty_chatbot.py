@@ -63,15 +63,17 @@ def get_user_input():
     """Prompts the user for input with a timeout. If the user does not respond within
     42 seconds, ask if they are still there. If there is still no response, exit."""
     time_limit = 42
+    user_input = None
     try:
-        return inputimeout(prompt="You: ", timeout=time_limit)
+        user_input = inputimeout(prompt="You: ", timeout=time_limit)
     except TimeoutOccurred:
         print("Chatbot: Are you still there?")
         try:
-            return inputimeout(prompt="You: ", timeout=time_limit)
+            user_input = inputimeout(prompt="You: ", timeout=time_limit)
         except TimeoutOccurred:
             print("Chatbot: I'll be here if you want to continue later. Goodbye!")
-            return None
+            user_input = None
+    return user_input
 
 def get_chatbot_response(client, conversation):
     """Gets the chatbot's response from OpenAI and return the reply, given the conversation history."""
