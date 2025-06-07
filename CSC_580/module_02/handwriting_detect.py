@@ -32,7 +32,7 @@ def display_sample(train_images, y_train, num):
     print("Label (one-hot):", y_train[num])
     label = y_train[num].argmax()
     image = train_images[num].reshape([28, 28])
-    plt.title(f'Sample: {num}, Label: {label}')
+    plt.title(f'Training Sample: {num}, Label: {label}')
     plt.imshow(image, cmap='gray_r')
     plt.show()
 
