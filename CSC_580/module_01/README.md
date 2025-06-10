@@ -1,6 +1,6 @@
 # Critical Thinking 1.1 - Face Detection
 
-### Unprocessed input image
+### Unprocessed Input Image
 ![Input Image](input_image.jpg)
 ===
 
