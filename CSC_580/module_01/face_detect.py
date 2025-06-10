@@ -3,7 +3,7 @@ import face_recognition  # type: ignore
 # ------------------------------------------------------------------------------------- 
 # Face Detection.
 #
-# Loads an image file, detects faces in it, and draws green bounding boxes around the 
+# Loads an image file, detects faces in it, and draws red bounding boxes around the 
 # detected faces.
 #
 # Usage:
@@ -32,8 +32,8 @@ def draw_boxes(image, face_locations):
         print("  Left: {}".format(left))
         print("  Bottom: {}".format(bottom))
         print("  Right: {}".format(right))
-        # Place a green bounding box around the detected face.
-        draw_handle.rectangle([left, top, right, bottom], outline="green", width=7)
+        # Place a red bounding box around the detected face.
+        draw_handle.rectangle([left, top, right, bottom], outline="red", width=7)
     return pil_image
 
 def main():
