@@ -1,0 +1,5 @@
+data/
+conv_model_big/
+*.jpg
+*.png
+*.jpeg
