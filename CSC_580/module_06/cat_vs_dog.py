@@ -7,6 +7,7 @@ from collections import defaultdict
 from tensorflow.keras import layers # type: ignore
 from tensorflow import keras
 from PIL import Image
+import concurrent.futures
 # -------------------------------------------------------------------------------------
 # Cat VS Dog Classifier
 # 
@@ -36,23 +37,21 @@ def analyze_image_shapes(cat_dir, sample_count=1000):
         shape_counts[str(pixels_from_path(cat).shape)] += 1
     return shape_counts
 
+def load_images_parallel(paths):
+    """Helper to load images in parallel."""
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        images = list(executor.map(pixels_from_path, paths))
+    return np.asarray(images)
+
 def load_dataset(cat_dir, dog_dir, sample_size):
     """Loads cat and dog images from the specified directories. Returns concatenated 
     image arrays and corresponding labels."""
     print(f"Loading cat images from {cat_dir}...")
     cat_paths = glob.glob(os.path.join(cat_dir, '*'))[:sample_size]
-    cat_images = []
-    for cat in cat_paths:
-        img = pixels_from_path(cat)
-        cat_images.append(img)
-    cat_set = np.asarray(cat_images)
+    cat_set = load_images_parallel(cat_paths)
     print(f"Loading dog images from {dog_dir}...")
     dog_paths = glob.glob(os.path.join(dog_dir, '*'))[:sample_size]
-    dog_images = []
-    for dog in dog_paths:
-        img = pixels_from_path(dog)
-        dog_images.append(img)
-    dog_set = np.asarray(dog_images)
+    dog_set = load_images_parallel(dog_paths)
     x = np.concatenate([cat_set, dog_set])
     y = np.asarray([1]*sample_size + [0]*sample_size) # 1 for cats, 0 for dogs.
     return x, y
@@ -71,22 +70,41 @@ def build_dense_model(input_shape, fc_size=512):
     return model
 
 def build_cnn_model(input_shape, fc_layer_size=128, extra_conv=False):
-    """Builds a convolutional neural network (CNN) model. If extra_conv is True, 
-    adds an extra convolutional layer."""
+    """Builds a deeper convolutional neural network (CNN) model. If extra_conv is True, 
+    adds an extra convolutional block."""
     inputs = keras.Input(shape=input_shape, name='ani_image')
-    x = layers.Conv2D(24, kernel_size=3, activation='relu')(inputs)
-    if extra_conv:
-        x = layers.Conv2D(48, kernel_size=3, activation='relu')(x)
+    # First convolutional block.
+    x = layers.Conv2D(32, kernel_size=3, activation='relu', padding='same')(inputs)
+    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(32, kernel_size=3, activation='relu', padding='same')(x)
+    x = layers.BatchNormalization()(x)
     x = layers.MaxPooling2D(pool_size=(2, 2))(x)
-    x = layers.Flatten(name='flattened_features')(x)
-    x = layers.Dense(fc_layer_size, activation='relu', name='first_layer')(x)
-    x = layers.Dense(fc_layer_size, activation='relu', name='second_layer')(x)
+    x = layers.Dropout(0.25)(x)
+    # Second convolutional block.
+    x = layers.Conv2D(64, kernel_size=3, activation='relu', padding='same')(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(64, kernel_size=3, activation='relu', padding='same')(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.MaxPooling2D(pool_size=(2, 2))(x)
+    x = layers.Dropout(0.25)(x)
+    # Optional extra convolutional block.
+    if extra_conv:
+        x = layers.Conv2D(128, kernel_size=3, activation='relu', padding='same')(x)
+        x = layers.BatchNormalization()(x)
+        x = layers.Conv2D(128, kernel_size=3, activation='relu', padding='same')(x)
+        x = layers.BatchNormalization()(x)
+        x = layers.MaxPooling2D(pool_size=(2, 2))(x)
+        x = layers.Dropout(0.25)(x)
+    # Fully connected layers.
+    x = layers.Flatten()(x)
+    x = layers.Dense(fc_layer_size, activation='relu')(x)
+    x = layers.Dropout(0.5)(x)
     outputs = layers.Dense(1, activation='sigmoid', name='class')(x)
     model = keras.Model(inputs=inputs, outputs=outputs)
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-6),
-            loss="binary_crossentropy", 
-            metrics=["binary_crossentropy", 
-            "mean_squared_error"])
+    model.compile(
+        optimizer=keras.optimizers.Adam(learning_rate=1e-4),
+        loss="binary_crossentropy",
+        metrics=["accuracy", "binary_crossentropy", "mean_squared_error"])
     return model
 
 def train_and_evaluate(model, x_train, y_train, x_valid, y_valid, epochs=10, 
@@ -176,20 +194,24 @@ def main():
                                 epochs=num_epochs)
     scatterplot_analysis(preds2, labels_valid) # Analyze predictions with scatterplot.
     save_model(cnn_model2, 'conv_model_big') # Save the best model.
-    index = 600 # Show prediction and image for a sample index.
-    # Check if x_valid is loaded and index is valid.
+    # Show predictions and images for several sample indices.
+    sample_indices = [42, 100, 200, 300, 400, 442, 800, 900]
     print(f"x_valid shape: {x_valid.shape}")
-    if x_valid is None or len(x_valid) <= index:
-        print("Validation data is missing or index is out of range.")
-        return
-    prob = cat_index(cnn_model2, x_valid, index)
-    print(f"cat_index returned: {prob}")
-    if prob is None:
-        print("Model prediction failed.")
-        return
-    print("Probability of being a cat: {:.2f}".format(prob))
-    img = animal_pic(x_valid, index)
-    img.show()
+    for index in sample_indices:
+        if x_valid is None or len(x_valid) <= index:
+            print(f"Validation data is missing or index {index} is out of range.")
+            continue
+        prob = cat_index(cnn_model2, x_valid, index)
+        print(f"Index {index}: cat_index returned: {prob}")
+        if prob is None:
+            print(f"Model prediction failed for index {index}.")
+            continue
+        cat_label = labels_valid[index]
+        msg = f"Index {index}: "
+        msg += f"Probability of being a cat: {prob:.2f} (Label: {cat_label})"
+        print(msg)
+        img = animal_pic(x_valid, index)
+        img.show()
 
 # The big red activation button.
 if __name__ == "__main__":
