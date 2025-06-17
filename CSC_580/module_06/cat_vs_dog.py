@@ -1,20 +1,28 @@
 import os
+# Suppress TensorFlow output (must be set before importing tensorflow).
+# 0=all_messages, 1=info, 2=warning, 3=error.
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Supress TensorFlow output.
 import glob
+import random
+import argparse
 import numpy as np
 import seaborn as sns
-import tensorflow as tf
+import concurrent.futures
 from collections import defaultdict
 from tensorflow.keras import layers # type: ignore
 from tensorflow import keras
 from PIL import Image
-import concurrent.futures
+from sklearn.metrics import confusion_matrix
 # -------------------------------------------------------------------------------------
 # Cat VS Dog Classifier
 # 
 # Implements a simple image classifier to distinguish between cats and dogs.
 #
 # Usage:
-#   python cat_vs_dog.py
+#   # Run everything with training:
+#       $ python cat_vs_dog.py
+#   # Only use a previously trained model. No training:
+#       $ python cat_vs_dog.py --use-model conv_model_big
 # -------------------------------------------------------------------------------------
 IMG_SIZE = (94, 125) # Image size for resizing all images.
 # Number of images to use for training and validation.
@@ -38,22 +46,28 @@ def analyze_image_shapes(cat_dir, sample_count=1000):
     return shape_counts
 
 def load_images_parallel(paths):
-    """Helper to load images in parallel."""
+    """Helper to load images in parallel and reduce execution time."""
     with concurrent.futures.ThreadPoolExecutor() as executor:
         images = list(executor.map(pixels_from_path, paths))
-    return np.asarray(images)
+    images = np.asarray(images)
+    return images
 
 def load_dataset(cat_dir, dog_dir, sample_size):
-    """Loads cat and dog images from the specified directories. Returns concatenated 
-    image arrays and corresponding labels."""
-    print(f"Loading cat images from {cat_dir}...")
-    cat_paths = glob.glob(os.path.join(cat_dir, '*'))[:sample_size]
+    """Loads a balanced set of cat and dog images."""
+    cat_paths = glob.glob(os.path.join(cat_dir, '*'))
+    dog_paths = glob.glob(os.path.join(dog_dir, '*'))
+    min_count = min(len(cat_paths), len(dog_paths), sample_size)
+    cat_paths = cat_paths[:min_count]
+    dog_paths = dog_paths[:min_count]
     cat_set = load_images_parallel(cat_paths)
-    print(f"Loading dog images from {dog_dir}...")
-    dog_paths = glob.glob(os.path.join(dog_dir, '*'))[:sample_size]
     dog_set = load_images_parallel(dog_paths)
     x = np.concatenate([cat_set, dog_set])
-    y = np.asarray([1]*sample_size + [0]*sample_size) # 1 for cats, 0 for dogs.
+    y = np.asarray([1]*min_count + [0]*min_count)
+    # Shuffle the dataset.
+    indices = np.arange(len(x))
+    np.random.shuffle(indices)
+    x = x[indices]
+    y = y[indices]
     return x, y
 
 def build_dense_model(input_shape, fc_size=512):
@@ -104,7 +118,10 @@ def build_cnn_model(input_shape, fc_layer_size=128, extra_conv=False):
     model.compile(
         optimizer=keras.optimizers.Adam(learning_rate=1e-4),
         loss="binary_crossentropy",
-        metrics=["accuracy", "binary_crossentropy", "mean_squared_error"])
+        metrics=["accuracy", 
+                keras.metrics.AUC(name="auc"), 
+                "binary_crossentropy", 
+                "mean_squared_error"])
     return model
 
 def train_and_evaluate(model, x_train, y_train, x_valid, y_valid, epochs=10, 
@@ -156,62 +173,90 @@ def cat_index(model, x_valid, index):
     prob = prediction[0][0]
     return prob
 
+def silent_show(img):
+    """Displays an image without printing to stderr. Temporarily redirect stderr."""
+    with open(os.devnull, 'w') as f, os.fdopen(os.dup(2), 'w') as old_stderr:
+        os.dup2(f.fileno(), 2)
+        img.show()
+        os.dup2(old_stderr.fileno(), 2)
+
 def main():
     """Main driver function."""
+    parser = argparse.ArgumentParser(description="Cat vs Dog Classifier")
+    parser.add_argument('--use-model', type=str, default=None,
+    help="Path to a previously trained model. If set, only predictions will be shown "
+    "(no training).")
+    parser.add_argument('--index', type=int, default=None,
+    help="Index of the validation image to display and predict. If not set, a random " \
+    "image will be used.")
+    args = parser.parse_args()
     num_epochs = 10  # Number of epochs for training.
     # Define data directories with 'data/' prefix.
     TRAIN_CAT_DIR = os.path.join('data', 'train', 'cats')
     TRAIN_DOG_DIR = os.path.join('data', 'train', 'dogs')
     TEST_CAT_DIR = os.path.join('data', 'test', 'cats')
     TEST_DOG_DIR = os.path.join('data', 'test', 'dogs')
-    analyze_image_shapes(TRAIN_CAT_DIR) # Analyze image shapes (for debugging).
-    # Load training and validation datasets.
-    x_train, labels_train = load_dataset(TRAIN_CAT_DIR, TRAIN_DOG_DIR, SAMPLE_SIZE)
+    # Always load validation data for viewing predictions.
     x_valid, labels_valid = load_dataset(TEST_CAT_DIR, TEST_DOG_DIR, VALID_SIZE)
-    # Build and train a dense model.
-    dense_model = build_dense_model((IMG_SIZE[1], IMG_SIZE[0], 3))
-    train_and_evaluate(dense_model, 
-                    x_train, 
-                    labels_train, 
-                    x_valid, 
-                    labels_valid, 
-                    epochs=num_epochs)
-    # Build and train a basic CNN model.
-    cnn_model = build_cnn_model((IMG_SIZE[1], IMG_SIZE[0], 3))
-    _, preds = train_and_evaluate(cnn_model, 
-                                x_train, 
-                                labels_train, 
-                                x_valid, 
-                                labels_valid, 
-                                epochs=num_epochs)
-    # Build and train a deeper CNN model.
-    cnn_model2 = build_cnn_model((IMG_SIZE[1], IMG_SIZE[0], 3), extra_conv=True)
-    _, preds2 = train_and_evaluate(cnn_model2, 
-                                x_train, 
-                                labels_train, 
-                                x_valid, 
-                                labels_valid, 
-                                epochs=num_epochs)
-    scatterplot_analysis(preds2, labels_valid) # Analyze predictions with scatterplot.
-    save_model(cnn_model2, 'conv_model_big') # Save the best model.
-    # Show predictions and images for several sample indices.
-    sample_indices = [42, 100, 200, 300, 400, 442, 800, 900]
+    if args.use_model:
+        # Loads the previously trained model.
+        print(f"Loading model from {args.use_model} ...")
+        model = keras.models.load_model(args.use_model)
+    else:
+        # Analyze image shapes (for debugging).
+        analyze_image_shapes(TRAIN_CAT_DIR)
+        # Loads training data.
+        x_train, labels_train = load_dataset(TRAIN_CAT_DIR, TRAIN_DOG_DIR, SAMPLE_SIZE)
+        # Builds and trains a dense model.
+        dense_model = build_dense_model((IMG_SIZE[1], IMG_SIZE[0], 3))
+        train_and_evaluate(dense_model, 
+                        x_train, 
+                        labels_train, 
+                        x_valid, 
+                        labels_valid, 
+                        epochs=num_epochs)
+        # Builds and trains a basic CNN model.
+        cnn_model = build_cnn_model((IMG_SIZE[1], IMG_SIZE[0], 3))
+        _, preds = train_and_evaluate(cnn_model, 
+                                    x_train, 
+                                    labels_train, 
+                                    x_valid, 
+                                    labels_valid, 
+                                    epochs=num_epochs)
+        # Builds and trains a deeper CNN model.
+        cnn_model2 = build_cnn_model((IMG_SIZE[1], IMG_SIZE[0], 3), extra_conv=True)
+        _, preds2 = train_and_evaluate(cnn_model2, 
+                                    x_train, 
+                                    labels_train, 
+                                    x_valid, 
+                                    labels_valid, 
+                                    epochs=num_epochs)
+        scatterplot_analysis(preds2, labels_valid) # Analyze predictions w/ scatterplot.
+        save_model(cnn_model2, 'conv_model_big') # Saves the best model.
+        model = cnn_model2
+    # Picks a random index, if not specified.
+    if args.index is not None:
+        index = args.index
+    else:
+        index = random.randint(0, len(x_valid) - 1)
     print(f"x_valid shape: {x_valid.shape}")
-    for index in sample_indices:
-        if x_valid is None or len(x_valid) <= index:
-            print(f"Validation data is missing or index {index} is out of range.")
-            continue
-        prob = cat_index(cnn_model2, x_valid, index)
-        print(f"Index {index}: cat_index returned: {prob}")
-        if prob is None:
-            print(f"Model prediction failed for index {index}.")
-            continue
-        cat_label = labels_valid[index]
-        msg = f"Index {index}: "
-        msg += f"Probability of being a cat: {prob:.2f} (Label: {cat_label})"
-        print(msg)
-        img = animal_pic(x_valid, index)
-        img.show()
+    if x_valid is None or len(x_valid) <= index:
+        print(f"Validation data is missing or index {index} is out of range.")
+        return
+    prob = cat_index(model, x_valid, index)
+    if prob is None:
+        print(f"Model prediction failed for index {index}.")
+        return
+    cat_label = labels_valid[index]
+    msg = f"Index {index}: "
+    msg += f"Probability of being a cat: {prob:.2f} (Label: {cat_label})"
+    print(msg)
+    img = animal_pic(x_valid, index)
+    silent_show(img)
+    # Confusion Matrix.
+    pred_labels = (model.predict(x_valid) > 0.5).astype(int).flatten()
+    cm = confusion_matrix(labels_valid, pred_labels)
+    print("Confusion Matrix:\n", cm)
 
 # The big red activation button.
 if __name__ == "__main__":
