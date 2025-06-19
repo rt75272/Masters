@@ -1,3 +1,5 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Suppress TensorFlow output.
 import matplotlib.pyplot as plt
 import tensorflow as tf # type: ignore
 from tensorflow.keras import layers, models # type: ignore
@@ -14,8 +16,8 @@ from tensorflow.keras import layers, models # type: ignore
 #    $ python handwriting_detect.py
 # --------------------------------------------------------------------------------------
 def load_and_prepare_data():
-    """Loads the MNIST dataset, flattens and normalizes the images,
-    and one-hot encodes the labels."""
+    """Loads the MNIST dataset, flattens and normalizes the images,and one-hot encodes 
+    the labels."""
     # Load MNIST dataset.
     mnist = tf.keras.datasets.mnist
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -27,12 +29,12 @@ def load_and_prepare_data():
     y_test = tf.keras.utils.to_categorical(y_test, 10)
     return train_images, y_train, test_images, y_test
 
-def display_sample(train_images, y_train, num):
-    """Displays a single sample image from the training set."""
-    print("Label (one-hot):", y_train[num])
-    label = y_train[num].argmax()
-    image = train_images[num].reshape([28, 28])
-    plt.title(f'Training Sample: {num}, Label: {label}')
+def display_sample(images, labels, num):
+    """Displays a single sample image from the dataset."""
+    print("Label (one-hot):", labels[num])
+    label = labels[num].argmax()
+    image = images[num].reshape([28, 28])
+    plt.title(f'Sample: {num}, Label: {label}')
     plt.imshow(image, cmap='gray_r')
     plt.show()
 
@@ -67,10 +69,10 @@ def train_and_evaluate(
         return history, test_loss, test_acc
 
 def main():
-    """Main driver function to run the MNIST handwriting detection pipeline.
-    Loads data, displays a sample, builds the model, and trains/evaluates it."""
+    """Main driver function to run the MNIST handwriting detection pipeline. Loads data,
+    displays a sample, builds the model, and trains/evaluates it."""
     train_images, y_train, test_images, y_test = load_and_prepare_data()
-    display_sample(train_images, y_train, 1242)
+    # display_sample(train_images, y_train, 1242)
     model = build_model(hidden_nodes=512)
     train_and_evaluate(
         model, 
@@ -78,8 +80,17 @@ def main():
         y_train, 
         test_images, 
         y_test, 
-        epochs=20, 
+        epochs=42, 
         batch_size=100)
+    # Show a test image.
+    idx = 42
+    display_sample(test_images, y_test, idx)
+    # Predict and show result.
+    prediction = model.predict(test_images[idx].reshape(1, 784))
+    predicted_label = prediction.argmax()
+    true_label = y_test[idx].argmax()
+    print(f"Predicted label: {predicted_label}")
+    print(f"True label: {true_label}")
 
 # The big red activation button.
 if __name__ == "__main__":
