@@ -3,6 +3,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Suppress TensorFlow output.
 import matplotlib.pyplot as plt
 import tensorflow as tf # type: ignore
 from tensorflow.keras import layers, models # type: ignore
+import time
 # --------------------------------------------------------------------------------------
 # Handwriting Detection with the MNIST Dataset.
 #
@@ -36,7 +37,9 @@ def display_sample(images, labels, num):
     image = images[num].reshape([28, 28])
     plt.title(f'Sample: {num}, Label: {label}')
     plt.imshow(image, cmap='gray_r')
-    plt.show()
+    plt.show(block=False)
+    time.sleep(9)
+    plt.close()
 
 def build_model(hidden_nodes=512):
     """Builds and compiles a simple neural network model for MNIST digits."""
