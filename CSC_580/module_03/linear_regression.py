@@ -1,15 +1,20 @@
+import os
+import warnings
+warnings.filterwarnings('ignore')
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import numpy as np # type: ignore
 import tensorflow as tf # type: ignore
 import matplotlib.pyplot as plt # type: ignore
 # --------------------------------------------------------------------------------------
 # TensorFlow & Keras Linear Regression.
 #
-# Demonstrates a simple linear regression model using TensorFlow and Keras. Predicts a 
+# Demonstrates a linear regression model using TensorFlow and Keras. Predicts a 
 # linear relationship between two variables.
 #
 # Usage:
 #    $ python linear_regression.py
 # --------------------------------------------------------------------------------------
+
 def generate_data(seed=101, num_points=50):
     """Generates synthetic linear data with noise and scales it."""
     np.random.seed(seed)
@@ -18,7 +23,7 @@ def generate_data(seed=101, num_points=50):
     # Add noise to both x and y.
     x += np.random.uniform(-4, 4, num_points)
     y += np.random.uniform(-4, 4, num_points)
-    # Scale data
+    # Scale data.
     x = (x - np.mean(x)) / np.std(x)
     y = (y - np.mean(y)) / np.std(y)
     return x, y
@@ -33,10 +38,8 @@ def plot_data(x, y, title="Training Data"):
 
 def build_model():
     """Builds a TensorFlow linear regression model."""
-    model = tf.keras.Sequential([
-        tf.keras.layers.Dense(1, input_shape=(1,))])
-    model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),
-        loss='mse')
+    model = tf.keras.Sequential([tf.keras.layers.Dense(1)])
+    model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),loss='mse')
     return model
 
 def train_model(model, x, y, epochs=1000):
