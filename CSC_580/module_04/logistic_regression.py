@@ -80,7 +80,33 @@ def build_graph(N):
         train_op = tf.compat.v1.train.AdamOptimizer(0.01).minimize(l)
     return x, y, W, b, y_pred, l, train_op
 
-def train_model(x, y, y_pred, l, train_op, x_np, y_np, N, num_steps=1000):
+def calculate_accuracy(y_true, y_pred):
+    """Calculate the accuracy of predictions."""
+    correct = np.sum(y_true == y_pred)
+    total = len(y_true)
+    accuracy = correct / total
+    return accuracy
+
+def demonstrate_prediction(W_np, b_np):
+    """Demonstrate prediction on a few sample points."""
+    # Sample test points
+    test_points = np.array([[-1.5, -1.5], [1.5, 1.5], [0.01, 0.01], [-0.5, 0.5]])
+    
+    print("\nDemonstration Predictions:")
+    print("Point\t\tLogit\t\tProbability\tPrediction")
+    print("-" * 60)
+    
+    for point in test_points:
+        # Calculate logit: W1*x1 + W2*x2 + b
+        logit = W_np[0] * point[0] + W_np[1] * point[1] + b_np[0]
+        # Calculate probability using sigmoid
+        probability = 1 / (1 + np.exp(-logit))
+        # Make prediction
+        prediction = 1 if probability > 0.5 else 0
+        
+        print(f"{point}\t{logit:.3f}\t\t{probability:.3f}\t\t{prediction}")
+
+def train_model(x, y, W, b, y_pred, l, train_op, x_np, y_np, N, num_steps=1000):
     """Trains the logistic regression model using TensorFlow."""
     with tf.compat.v1.Session() as sess:
         sess.run(tf.compat.v1.global_variables_initializer())
@@ -88,15 +114,28 @@ def train_model(x, y, y_pred, l, train_op, x_np, y_np, N, num_steps=1000):
             _, loss = sess.run([train_op, l], feed_dict={x: x_np, y: y_np})
             if i % 100 == 0:
                 print(f'Iteration {i}, loss: {loss}')
-        # Retrieve trained weights and predictions.
-        y_pred_tensor = y_pred
-        W_tensor_name = "weights/Variable:0"
-        b_tensor_name = "weights/Variable_1:0"
-        W_tensor = tf.compat.v1.get_default_graph().get_tensor_by_name(W_tensor_name)
-        b_tensor = tf.compat.v1.get_default_graph().get_tensor_by_name(b_tensor_name)
-        y_pred_np, W_np, b_np = sess.run(
-            [y_pred_tensor, W_tensor, b_tensor], 
-            feed_dict={x: x_np, y: y_np})
+        
+        # Retrieve trained weights and predictions
+        y_pred_np, W_np, b_np = sess.run([y_pred, W, b], feed_dict={x: x_np, y: y_np})
+    
+
+    
+    # Convert to numpy arrays and flatten for safe indexing
+    W_np = np.array(W_np).flatten()
+    b_np = np.array(b_np).flatten()
+    
+    # Print model weights and accuracy
+    print(f"\nModel Weights:")
+    print(f"W1 (weight for X1): {W_np[0]:.4f}")
+    print(f"W2 (weight for X2): {W_np[1]:.4f}")
+    print(f"Bias: {b_np[0]:.4f}")
+    
+    accuracy = calculate_accuracy(y_np, y_pred_np)
+    print(f"\nModel Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+    
+    # Demonstrate predictions
+    demonstrate_prediction(W_np, b_np)
+    
     return y_pred_np, W_np, b_np
 
 def plot_predictions(x_np, y_pred_np, y_np, W_np=None, b_np=None):
@@ -133,7 +172,7 @@ def main():
     x_np, y_np, x_zeros, x_ones = generate_synthetic_data(N)
     plot_data(x_zeros, x_ones)
     x, y, W, b, y_pred, l, train_op = build_graph(N)
-    y_pred_np, W_np, b_np = train_model(x, y, y_pred, l, train_op, x_np, y_np, N)
+    y_pred_np, W_np, b_np = train_model(x, y, W, b, y_pred, l, train_op, x_np, y_np, N)
     plot_predictions(x_np, y_pred_np, y_np, W_np, b_np)
 
 # The big red activation button.
