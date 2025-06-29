@@ -31,8 +31,8 @@ def load_and_detect_group_faces(group_image_path):
     # Finds the pixel coordinates of all faces in the group image. Returns (top, right,
     # bottom, left) coordinates for each face.
     group_face_locations = face_recognition.face_locations(group_image)
-    # Generates face encodings for each detected face using their locations. This creates
-    # unique identifiers for comparison with the target person.
+    # Generates face encodings for each detected face using their locations. This 
+    # creates unique identifiers for comparison with the target person.
     group_encodings = face_recognition.face_encodings(group_image, 
                                                       group_face_locations)
     return group_image, group_face_locations, group_encodings
