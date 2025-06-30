@@ -1,0 +1,7 @@
+iris/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
