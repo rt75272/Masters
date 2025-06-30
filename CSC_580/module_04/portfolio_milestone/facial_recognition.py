@@ -35,8 +35,6 @@ def load_and_detect_group_faces(group_image_path):
     # creates unique identifiers for comparison with the target person.
     group_encodings = face_recognition.face_encodings(group_image, 
                                                       group_face_locations)
-    
-    # Return all processed group image data
     return group_image, group_face_locations, group_encodings
 
 def compare_faces(group_encodings, person_encoding, tolerance=0.6):
