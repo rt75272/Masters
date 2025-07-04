@@ -1,9 +1,9 @@
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.tree import plot_tree
-from sklearn.datasets import load_iris
-from sklearn.ensemble import RandomForestClassifier
+import pandas as pd # type: ignore
+import matplotlib.pyplot as plt # type: ignore
+from sklearn.tree import plot_tree # type: ignore
+from sklearn.datasets import load_iris # type: ignore
+from sklearn.ensemble import RandomForestClassifier # type: ignore
 # -------------------------------------------------------------------------------------
 # Iris Random Forest Classifier
 # 
