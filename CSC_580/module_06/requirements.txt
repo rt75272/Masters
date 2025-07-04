@@ -1,4 +1,5 @@
-tensorflow>=2.0
+tensorflow[and-cuda]
 numpy
 seaborn
 pillow
+scikit-learn

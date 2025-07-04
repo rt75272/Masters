@@ -1,5 +1,8 @@
 data/
+cats_vs_dogs/
 conv_model_big/
+__pycache__/
 *.jpg
 *.png
 *.jpeg
+*.keras
