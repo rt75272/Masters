@@ -53,21 +53,20 @@ class ModelBuilder:
             x = layers.MaxPooling2D(pool_size=(2, 2))(x)
             x = layers.Dropout(0.4)(x)
             # Optional fourth convolutional block for deeper model
-            if extra_conv:
-                x = layers.Conv2D(
-                    512, 
-                    kernel_size=3, 
-                    activation='relu', 
-                    padding='same')(x)
-                x = layers.BatchNormalization()(x)
-                x = layers.Conv2D(
-                    512,
-                    kernel_size=3,
-                    activation='relu',
-                    padding='same')(x)
-                x = layers.BatchNormalization()(x)
-                x = layers.MaxPooling2D(pool_size=(2, 2))(x)
-                x = layers.Dropout(0.5)(x)
+            x = layers.Conv2D(
+                512, 
+                kernel_size=3, 
+                activation='relu', 
+                padding='same')(x)
+            x = layers.BatchNormalization()(x)
+            x = layers.Conv2D(
+                512,
+                kernel_size=3,
+                activation='relu',
+                padding='same')(x)
+            x = layers.BatchNormalization()(x)
+            x = layers.MaxPooling2D(pool_size=(2, 2))(x)
+            x = layers.Dropout(0.5)(x)
             # Global Average Pooling instead of Flatten to reduce overfitting
             x = layers.GlobalAveragePooling2D()(x)
             x = layers.Dense(fc_layer_size, activation='relu')(x)

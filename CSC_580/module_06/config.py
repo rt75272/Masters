@@ -6,10 +6,10 @@ SAMPLE_SIZE = 4096     # Number of training images to use
 VALID_SIZE = 1024      # Number of validation images to use
 
 # Training settings
-EPOCHS = 77
+EPOCHS = 50
 BATCH_SIZE = 32
-LEARNING_RATE = 5e-5
-DENSE_LEARNING_RATE = 1e-3
+LEARNING_RATE = 5e-2
+DENSE_LEARNING_RATE = 1e-2
 
 # Model architecture settings
 DENSE_FC_SIZE = 512
