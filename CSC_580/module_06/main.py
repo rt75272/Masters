@@ -199,7 +199,58 @@ class CatDogClassifier:
         img = self.analyzer.get_image_for_display(self.x_valid, index)
         self.analyzer.display_image_silently(img)
     
-    def run_full_pipeline(self):
+    def interactive_prediction_loop(self):
+        """Allow user to interactively explore multiple test images."""
+        if self.best_model is None or self.x_valid is None:
+            print("Model or validation data not available!")
+            return
+        
+        print("\n" + "=" * 60)
+        print("INTERACTIVE MODE")
+        print("=" * 60)
+        print(f"Available images: 0 to {len(self.x_valid) - 1}")
+        print("Commands:")
+        print("  - Enter a number to view that image")
+        print("  - Press Enter for random image")
+        print("  - Type 'quit' or 'q' to exit")
+        print("=" * 60)
+        
+        while True:
+            try:
+                # Get user input
+                user_input = input("\nEnter image index (or 'quit'): ").strip()
+                
+                # Check for quit commands
+                if user_input.lower() in ['quit', 'q', 'exit']:
+                    print("Exiting interactive mode...")
+                    break
+                
+                # Handle empty input (random image)
+                if user_input == "":
+                    index = random.randint(0, len(self.x_valid) - 1)
+                    print(f"Randomly selected index: {index}")
+                else:
+                    # Try to parse as integer
+                    try:
+                        index = int(user_input)
+                        if index < 0 or index >= len(self.x_valid):
+                            print(f"Index must be between 0 and {len(self.x_valid) - 1}")
+                            continue
+                    except ValueError:
+                        print("Invalid input. Please enter a number or 'quit'.")
+                        continue
+                
+                # Show the prediction for the selected image
+                self.predict_single_image(index)
+                
+            except KeyboardInterrupt:
+                print("\nExiting interactive mode...")
+                break
+            except EOFError:
+                print("\nExiting interactive mode...")
+                break
+    
+    def run_full_pipeline(self, interactive=True):
         """Run the complete training and evaluation pipeline."""
         # Initialize environment and display configuration
         self.setup_environment()
@@ -213,15 +264,21 @@ class CatDogClassifier:
         # Analyze the best model's performance using various metrics
         # Helps understand model strengths and weaknesses
         self.analyze_model_performance()
-        # Demonstrate prediction capability on a sample image
-        # Provides visual verification of model performance
-        self.predict_single_image()
+        
+        if interactive:
+            # Start interactive prediction mode for exploring multiple images
+            # Allows users to test the model on different images interactively
+            self.interactive_prediction_loop()
+        else:
+            # Show one random prediction and exit
+            self.predict_single_image()
+        
         # Display completion message
         print("\n" + "=" * 50)
         print("PIPELINE COMPLETE")
         print("=" * 50)
     
-    def run_inference_only(self, model_path, image_index=None):
+    def run_inference_only(self, model_path, image_index=None, interactive=True):
         """Run inference only with a pre-trained model (no training)."""
         # Initialize environment and display configuration
         self.setup_environment()
@@ -241,9 +298,19 @@ class CatDogClassifier:
         # Analyze model performance on validation set
         # Shows how well the loaded model performs
         self.analyze_model_performance()
-        # Predict on specific or random image as requested
-        # Allows interactive exploration of model predictions
-        self.predict_single_image(image_index)
+        
+        # If a specific index was provided, show that image first
+        if image_index is not None:
+            self.predict_single_image(image_index)
+        
+        if interactive:
+            # Start interactive prediction mode for exploring multiple images
+            # Allows users to test the model on different images interactively
+            self.interactive_prediction_loop()
+        elif image_index is None:
+            # Show one random prediction if no specific index was provided
+            self.predict_single_image()
+        
         # Display completion message
         print("\n" + "=" * 50)
         print("INFERENCE COMPLETE")
@@ -256,11 +323,12 @@ def main():
         description="Cat vs Dog Classifier - Modular Implementation",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-            Examples:
-            python main.py                                   # Train and evaluate models
-            python main.py --use-model conv_model_big.keras  # Use pre-trained model
-            python main.py --use-model model.keras --index 42 # Predict specific image
-                """)
+Examples:
+  python main.py                                   # Train and evaluate models
+  python main.py --use-model conv_model_big.keras  # Use pre-trained model
+  python main.py --use-model model.keras --index 42 # Predict specific image
+  python main.py --use-model model.keras --no-interactive # Run once and exit
+        """)
     # Add command line arguments
     parser.add_argument(
         '--use-model', 
@@ -272,20 +340,29 @@ def main():
         type=int, 
         default=None,
         help='Index of validation image to analyze. If not provided, uses random.')
+    
+    parser.add_argument(
+        '--no-interactive', 
+        action='store_true',
+        help='Disable interactive mode. Run once and exit.')
     # Parse command line arguments
     args = parser.parse_args()
     # Create the main classifier instance
     # This initializes all components and sets up the pipeline
     classifier = CatDogClassifier()
+    
+    # Determine if interactive mode should be enabled
+    interactive = not args.no_interactive
+    
     # Choose workflow based on command line arguments
     if args.use_model:
         # Inference-only mode: use pre-trained model without training
         # This is faster and useful for testing/demonstration
-        classifier.run_inference_only(args.use_model, args.index)
+        classifier.run_inference_only(args.use_model, args.index, interactive)
     else:
         # Full pipeline mode: train models from scratch and evaluate
         # This provides the complete machine learning workflow
-        classifier.run_full_pipeline()
+        classifier.run_full_pipeline(interactive)
 
 # The big red activation button.
 if __name__ == "__main__":
