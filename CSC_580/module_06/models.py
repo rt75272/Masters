@@ -27,7 +27,7 @@ class ModelBuilder:
         """Builds a deeper convolutional neural network (CNN) model."""
         with tf.device(self.gpu_manager.get_device_context()):
             inputs = keras.Input(shape=input_shape, name='ani_image')
-            # First convolutional block
+            # First convolutional block.
             x = layers.Conv2D(
                 64, 
                 kernel_size=3, 
@@ -38,21 +38,21 @@ class ModelBuilder:
             x = layers.BatchNormalization()(x)
             x = layers.MaxPooling2D(pool_size=(2, 2))(x)
             x = layers.Dropout(0.25)(x)
-            # Second convolutional block
+            # Second convolutional block.
             x = layers.Conv2D(128, kernel_size=3, activation='relu', padding='same')(x)
             x = layers.BatchNormalization()(x)
             x = layers.Conv2D(128, kernel_size=3, activation='relu', padding='same')(x)
             x = layers.BatchNormalization()(x)
             x = layers.MaxPooling2D(pool_size=(2, 2))(x)
             x = layers.Dropout(0.3)(x)
-            # Third convolutional block
+            # Third convolutional block.
             x = layers.Conv2D(256, kernel_size=3, activation='relu', padding='same')(x)
             x = layers.BatchNormalization()(x)
             x = layers.Conv2D(256, kernel_size=3, activation='relu', padding='same')(x)
             x = layers.BatchNormalization()(x)
             x = layers.MaxPooling2D(pool_size=(2, 2))(x)
             x = layers.Dropout(0.4)(x)
-            # Optional fourth convolutional block for deeper model
+            # Optional fourth convolutional block for deeper model.
             x = layers.Conv2D(
                 512, 
                 kernel_size=3, 
@@ -67,7 +67,7 @@ class ModelBuilder:
             x = layers.BatchNormalization()(x)
             x = layers.MaxPooling2D(pool_size=(2, 2))(x)
             x = layers.Dropout(0.5)(x)
-            # Global Average Pooling instead of Flatten to reduce overfitting
+            # Global Average Pooling instead of Flatten to reduce overfitting.
             x = layers.GlobalAveragePooling2D()(x)
             x = layers.Dense(fc_layer_size, activation='relu')(x)
             x = layers.BatchNormalization()(x)

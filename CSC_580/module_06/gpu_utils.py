@@ -12,14 +12,12 @@ class GPUManager:
         """Configure GPU settings for optimal performance."""
         print("TensorFlow version:", tf.__version__)
         print("GPU Available: ", tf.config.list_physical_devices('GPU'))
-        
         if tf.config.list_physical_devices('GPU'):
             self.gpu_available = True
             print("GPU devices found:")
             for gpu in tf.config.list_physical_devices('GPU'):
                 print(f"  {gpu}")
-            
-            # Enable memory growth to prevent TensorFlow from allocating all GPU memory
+            # Enable memory growth to prevent TensorFlow from allocating all GPU memory.
             gpus = tf.config.experimental.list_physical_devices('GPU')
             if gpus:
                 try:
@@ -28,8 +26,7 @@ class GPUManager:
                     print("GPU memory growth enabled")
                 except RuntimeError as e:
                     print(f"GPU memory growth setting failed: {e}")
-            
-            # Set GPU as the default device
+            # Set GPU as the default device.
             gpu_devices = tf.config.list_physical_devices('GPU')
             first_gpu = gpu_devices[0]
             tf.config.set_visible_devices(first_gpu, 'GPU')
@@ -46,14 +43,6 @@ class GPUManager:
             return True
         else:
             print("Using CPU for computations")
-            return False
-    
-    def get_device_context(self):
-        """Get the appropriate device context for model operations."""
-        if self.gpu_available:
-            return '/GPU:0'
-        else:
-            return '/CPU:0'
             return False
     
     def get_device_context(self):

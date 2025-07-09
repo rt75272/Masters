@@ -48,7 +48,7 @@ class ModelAnalyzer:
         cat."""
         img_array = np.asarray([x_valid[index]])
         prediction = model.predict(img_array)
-        # Handle both (n,) and (n, 1) output shapes
+        # Handle both (n,) and (n, 1) output shapes.
         if len(prediction.shape) > 1 and prediction.shape[1] == 1:
             prob = prediction[0][0]
         else:
@@ -58,7 +58,7 @@ class ModelAnalyzer:
     def get_image_for_display(self, x_valid, index):
         """Returns a PIL Image object for display."""
         img_array = x_valid[index]
-        # Convert normalized values back to 0-255 range for display
+        # Convert normalized values back to 0-255 range for display.
         img_array = (img_array * 255).astype(np.uint8)
         img = Image.fromarray(img_array)
         return img

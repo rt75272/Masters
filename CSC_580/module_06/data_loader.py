@@ -16,12 +16,12 @@ class DataLoader:
         """Loads an image from a file path, resizes it, normalizes it, and returns it as
           a numpy array."""
         im = Image.open(file_path)
-        im = im.resize(IMG_SIZE)  # PIL resize uses (width, height) format
+        im = im.resize(IMG_SIZE) # PIL resize uses (width, height) format.
         img_array = np.array(im)
-        # Handle grayscale images
-        if len(img_array.shape) == 2:  # Grayscale image
-            img_array = np.stack([img_array] * 3, axis=-1)  # Convert to RGB
-        # Normalize pixel values to [0, 1]
+        # Handle grayscale images.
+        if len(img_array.shape) == 2: # Grayscale image.
+            img_array = np.stack([img_array] * 3, axis=-1) # Convert to RGB.
+        # Normalize pixel values to [0, 1].
         img_array = img_array.astype(np.float32) / 255.0
         return img_array
     
@@ -30,7 +30,6 @@ class DataLoader:
         Prints progress every 100 images. Returns a dictionary with shape counts."""
         shape_counts = defaultdict(int)
         image_paths = glob.glob(os.path.join(image_dir, '*'))[:sample_count]
-        
         for i, image_path in enumerate(image_paths):
             if i % 100 == 0:
                 print(f"Processed {i} images")
@@ -46,40 +45,32 @@ class DataLoader:
     
     def load_dataset(self, cat_dir, dog_dir, sample_size):
         """Loads a balanced set of cat and dog images."""
-        # Check if directories exist
+        # Check if directories exist.
         if not os.path.exists(cat_dir):
             print(f"ERROR: Cat directory '{cat_dir}' does not exist!")
             return np.array([]), np.array([])
         if not os.path.exists(dog_dir):
             print(f"ERROR: Dog directory '{dog_dir}' does not exist!")
             return np.array([]), np.array([])
-        
         cat_paths = glob.glob(os.path.join(cat_dir, '*'))
         dog_paths = glob.glob(os.path.join(dog_dir, '*'))
-        
         print(f"Found {len(cat_paths)} cat images in {cat_dir}")
         print(f"Found {len(dog_paths)} dog images in {dog_dir}")
-        
         if len(cat_paths) == 0 or len(dog_paths) == 0:
             print("ERROR: No images found in one or both directories!")
             return np.array([]), np.array([])
-        
         min_count = min(len(cat_paths), len(dog_paths), sample_size)
         cat_paths = cat_paths[:min_count]
         dog_paths = dog_paths[:min_count]
-        
         print(f"Loading {min_count} images from each category...")
         cat_set = self.load_images_parallel(cat_paths)
         dog_set = self.load_images_parallel(dog_paths)
-        
         if len(cat_set) == 0 or len(dog_set) == 0:
             print("ERROR: Failed to load images!")
             return np.array([]), np.array([])
-        
         x = np.concatenate([cat_set, dog_set])
         y = np.asarray([1]*min_count + [0]*min_count)
-        
-        # Shuffle the dataset
+        # Shuffle the dataset.
         indices = np.arange(len(x))
         np.random.shuffle(indices)
         x = x[indices]
@@ -108,7 +99,7 @@ class DataLoader:
             print("├── train/")
             print("│   ├── cats/")
             print("│   └── dogs/")
-            print("└── test/")
+            print("│── test/")
             print("    ├── cats/")
             print("    └── dogs/")
             return False

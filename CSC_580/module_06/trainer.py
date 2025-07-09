@@ -6,7 +6,6 @@ from config import BATCH_SIZE, CHECKPOINT_PATH
 """Model training and evaluation utilities."""
 class ModelTrainer:
     """Handles model training and evaluation."""
-    
     def __init__(self):
         """Constructor for ModelTrainer."""
         self.data_augmentation = self._create_data_augmentation()
@@ -48,26 +47,25 @@ class ModelTrainer:
                           epochs=50, batch_size=BATCH_SIZE):
         """Trains the given model and evaluates it on the validation set."""
         print(f'# Fit model: {model.name}')
-        # Create datasets.
         train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
         train_dataset = train_dataset.map(self._augment_data)
         train_dataset = train_dataset.batch(batch_size)
         train_dataset = train_dataset.prefetch(tf.data.AUTOTUNE)
         val_dataset = tf.data.Dataset.from_tensor_slices((x_valid, y_valid))
         val_dataset = val_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
-        # Train the model
+        # Train the model.
         history = model.fit(
             train_dataset,
             epochs=epochs,
             validation_data=val_dataset,
             callbacks=self._create_callbacks(),
             verbose=1)
-        # Make predictions
+        # Make predictions.
         preds = model.predict(x_valid)
-        # Handle both (n,) and (n, 1) output shapes
+        # Handle both (n,) and (n, 1) output shapes.
         if len(preds.shape) > 1 and preds.shape[1] == 1:
             preds = preds.flatten()
-        # Calculate Pearson correlation
+        # Calculate Pearson correlation.
         pearson = np.corrcoef(preds, y_valid)[0][1]
         print("Pearson correlation:", pearson)
         return history, preds
