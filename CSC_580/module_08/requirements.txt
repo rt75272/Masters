@@ -1,2 +1,4 @@
 numpy
 tensorflow[and-cuda]
+pytest
+pytest-cov

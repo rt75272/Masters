@@ -53,9 +53,10 @@ class DataGenerator:
     
     @staticmethod
     def one_hot_decode(encoded_seq):
-        """Decodes a one-hot encoded sequence into a list of integers."""
+        """Decodes a one-hot encoded sequence into a list of plain integers."""
         decoded_sequence = []
         for vector in encoded_seq:
             max_index = argmax(vector)
-            decoded_sequence.append(max_index)
+            # Convert numpy int64 to plain Python int for cleaner display
+            decoded_sequence.append(int(max_index))
         return decoded_sequence

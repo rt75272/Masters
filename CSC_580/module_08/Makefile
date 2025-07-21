@@ -10,13 +10,16 @@
 #   make clean    		# Remove temporary files.
 #   make all | make     # Run install, run, and clean in sequence.
 # -------------------------------------------------------------------------------------- 
-all: install run clean
+all: install run test clean
 
 install:
 	@pip install -r requirements.txt
 
 run:
 	@python main.py
+
+test:
+	@python run_tests.py --verbose --coverage
 
 clean:
 	@rm -rf __pycache__

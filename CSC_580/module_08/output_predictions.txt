@@ -1,10 +1,67 @@
-X=[np.int64(37), np.int64(24), np.int64(11), np.int64(17), np.int64(8), np.int64(18)] y=[np.int64(11), np.int64(24), np.int64(37)] yhat=[np.int64(11), np.int64(24), np.int64(37)]
-X=[np.int64(15), np.int64(41), np.int64(18), np.int64(46), np.int64(46), np.int64(45)] y=[np.int64(18), np.int64(41), np.int64(15)] yhat=[np.int64(18), np.int64(41), np.int64(15)]
-X=[np.int64(24), np.int64(28), np.int64(20), np.int64(27), np.int64(26), np.int64(14)] y=[np.int64(20), np.int64(28), np.int64(24)] yhat=[np.int64(20), np.int64(28), np.int64(24)]
-X=[np.int64(39), np.int64(31), np.int64(6), np.int64(33), np.int64(3), np.int64(6)] y=[np.int64(6), np.int64(31), np.int64(39)] yhat=[np.int64(6), np.int64(31), np.int64(39)]
-X=[np.int64(9), np.int64(47), np.int64(3), np.int64(25), np.int64(14), np.int64(16)] y=[np.int64(3), np.int64(47), np.int64(9)] yhat=[np.int64(3), np.int64(47), np.int64(9)]
-X=[np.int64(23), np.int64(32), np.int64(23), np.int64(41), np.int64(38), np.int64(40)] y=[np.int64(23), np.int64(32), np.int64(23)] yhat=[np.int64(23), np.int64(32), np.int64(23)]
-X=[np.int64(46), np.int64(31), np.int64(40), np.int64(18), np.int64(39), np.int64(30)] y=[np.int64(40), np.int64(31), np.int64(46)] yhat=[np.int64(40), np.int64(31), np.int64(46)]
-X=[np.int64(21), np.int64(26), np.int64(30), np.int64(23), np.int64(27), np.int64(18)] y=[np.int64(30), np.int64(26), np.int64(21)] yhat=[np.int64(30), np.int64(26), np.int64(21)]
-X=[np.int64(25), np.int64(43), np.int64(28), np.int64(32), np.int64(25), np.int64(26)] y=[np.int64(28), np.int64(43), np.int64(25)] yhat=[np.int64(28), np.int64(43), np.int64(25)]
-X=[np.int64(29), np.int64(17), np.int64(37), np.int64(46), np.int64(6), np.int64(15)] y=[np.int64(37), np.int64(17), np.int64(29)] yhat=[np.int64(37), np.int64(17), np.int64(29)]
+================================================================================
+ENCODER-DECODER MODEL PREDICTIONS
+================================================================================
+Generated on: 2025-07-21 09:44:47
+Task: Reverse first 3 elements of 6-element sequence
+--------------------------------------------------------------------------------
+
+Sample 1:
+  Input:     [37, 24, 11, 17, 8, 18]
+  Expected:  [11, 24, 37]
+  Predicted: [11, 24, 37]
+  Result:    ✅ CORRECT
+
+Sample 2:
+  Input:     [15, 41, 18, 46, 46, 45]
+  Expected:  [18, 41, 15]
+  Predicted: [18, 41, 15]
+  Result:    ✅ CORRECT
+
+Sample 3:
+  Input:     [24, 28, 20, 27, 26, 14]
+  Expected:  [20, 28, 24]
+  Predicted: [20, 28, 24]
+  Result:    ✅ CORRECT
+
+Sample 4:
+  Input:     [39, 31, 6, 33, 3, 6]
+  Expected:  [6, 31, 39]
+  Predicted: [6, 31, 39]
+  Result:    ✅ CORRECT
+
+Sample 5:
+  Input:     [9, 47, 3, 25, 14, 16]
+  Expected:  [3, 47, 9]
+  Predicted: [3, 47, 9]
+  Result:    ✅ CORRECT
+
+Sample 6:
+  Input:     [23, 32, 23, 41, 38, 40]
+  Expected:  [23, 32, 23]
+  Predicted: [23, 32, 23]
+  Result:    ✅ CORRECT
+
+Sample 7:
+  Input:     [46, 31, 40, 18, 39, 30]
+  Expected:  [40, 31, 46]
+  Predicted: [40, 31, 46]
+  Result:    ✅ CORRECT
+
+Sample 8:
+  Input:     [21, 26, 30, 23, 27, 18]
+  Expected:  [30, 26, 21]
+  Predicted: [30, 26, 21]
+  Result:    ✅ CORRECT
+
+Sample 9:
+  Input:     [25, 43, 28, 32, 25, 26]
+  Expected:  [28, 43, 25]
+  Predicted: [28, 43, 25]
+  Result:    ✅ CORRECT
+
+Sample 10:
+  Input:     [29, 17, 37, 46, 6, 15]
+  Expected:  [37, 17, 29]
+  Predicted: [37, 17, 29]
+  Result:    ✅ CORRECT
+

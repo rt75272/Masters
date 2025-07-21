@@ -112,14 +112,12 @@ class EncoderDecoderModel:
     def predict_sequence(self, source, n_steps, cardinality):
         """Generates target sequence given a source on the configured device."""
         with tf.device(self.device):
-            # Encode source as state.
             state = self.encoder_model.predict(source, verbose=0)
-            # Start with '0' start token.
             target_seq = np.zeros((1, 1, cardinality))
             output = []
             for _ in range(n_steps):
                 yhat, h, c = self.decoder_model.predict([target_seq] + state, verbose=0)
                 output.append(yhat[0, 0, :])
                 state = [h, c]
-                target_seq = yhat # predicted token becomes next input.
+                target_seq = yhat # Predicted token becomes next input.
             return array(output)
