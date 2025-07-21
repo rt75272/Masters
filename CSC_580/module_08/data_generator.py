@@ -34,10 +34,10 @@ class DataGenerator:
             target = list(reversed(source[:n_out]))
             # Padded input for decoder, shifted right with '0' start token.
             target_in = [0] + target[:-1]
-            # One-hot encoding.
-            src_encoded = to_categorical([source], num_classes=self.cardinality)
-            tar_encoded = to_categorical([target], num_classes=self.cardinality)
-            tar2_encoded = to_categorical([target_in], num_classes=self.cardinality)
+            # One-hot encoding - remove extra list wrapper.
+            src_encoded = to_categorical(source, num_classes=self.cardinality)
+            tar_encoded = to_categorical(target, num_classes=self.cardinality)
+            tar2_encoded = to_categorical(target_in, num_classes=self.cardinality)
             X1.append(src_encoded)
             X2.append(tar2_encoded)
             y.append(tar_encoded)

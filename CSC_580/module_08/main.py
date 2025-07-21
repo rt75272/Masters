@@ -31,13 +31,15 @@ def main():
     device_type = "GPU" if gpu_available else "CPU"
     print(f"Execution Device: {device_type}")
     print("=" * 50)
-    n_features = 50 + 1  # 0 is start token.
+    n_features = 50 + 1
     n_steps_in = 6
     n_steps_out = 3
-    n_units = 128
-    n_samples = 10000  # Train on 10,000 sequences.
+    n_units = 256
+    n_samples = 15000 
+    dropout_rate = 0.2  # Regularization.
     data_generator = DataGenerator(cardinality=n_features, random_seed=42)
-    model = EncoderDecoderModel(n_features, n_features, n_units, use_gpu=gpu_available)
+    model = EncoderDecoderModel(n_features, n_features, n_units, 
+                               use_gpu=gpu_available, dropout_rate=dropout_rate)
     trainer = ModelTrainer(model, data_generator)
     print("Generating dataset...")
     X1, X2, y = data_generator.get_dataset(n_steps_in, 
@@ -49,9 +51,10 @@ def main():
     print("Compiling model...")
     model.compile_model(optimizer='adam', 
                        loss='categorical_crossentropy', 
-                       metrics=['accuracy'])
+                       metrics=['accuracy'],
+                       learning_rate=0.001)
     print(f"Training model on {device_type}...")
-    model.train(X1, X2, y, epochs=30, batch_size=64, verbose=2)
+    model.train(X1, X2, y, epochs=50, batch_size=64, verbose=2, use_callbacks=True)
     print("Evaluating model accuracy...")
     trainer.evaluate_accuracy(n_steps_in, n_steps_out, n_features, n_test_samples=100)
     print("Saving predictions...")
