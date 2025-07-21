@@ -1,6 +1,22 @@
 from numpy import array_equal
-"""Training and evaluation utilities for encoder-decoder models."""
+"""Model Trainer.
 
+Training and evaluation utilities for encoder-decoder models.
+
+Usage:
+    from model_trainer import ModelTrainer
+    trainer = ModelTrainer(model, data_generator)
+    trainer.evaluate_accuracy(n_steps_in, 
+                              n_steps_out, 
+                              n_features, 
+                              n_test_samples=100)
+    trainer.save_predictions(n_steps_in, 
+                              n_steps_out, 
+                              n_features, 
+                              filename='output_predictions.txt', 
+                              n_samples=10)
+""" 
+ 
 class ModelTrainer:
     """Handles training and evaluation of the encoder-decoder model."""
     

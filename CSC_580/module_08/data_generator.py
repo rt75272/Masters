@@ -1,9 +1,17 @@
+import random
 import numpy as np
+from tensorflow.keras.utils import to_categorical # type: ignore
 from numpy import array, argmax
 from random import randint
-import random
-from tensorflow.keras.utils import to_categorical # type: ignore
-"""Data generation and encoding utilities for sequence-to-sequence tasks."""
+"""Data Generator.
+
+Data generation and encoding utilities for sequence-to-sequence tasks.
+
+Usage:
+    from data_generator import DataGenerator
+    data_generator = DataGenerator(cardinality=51, random_seed=42)
+    X1, X2, y = data_generator.get_dataset(n_steps_in=6, n_steps_out=3, n_samples=1000)
+"""
 
 class DataGenerator:
     """Handles data generation and encoding for sequence-to-sequence tasks."""

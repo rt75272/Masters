@@ -1,5 +1,12 @@
 import tensorflow as tf
-"""GPU configuration utilities for TensorFlow."""
+"""GPU Configuration.
+
+GPU configuration utilities for TensorFlow.
+
+Usage:
+    from gpu_config import configure_gpu
+    gpu_available = configure_gpu()
+"""
 
 def configure_gpu():
     """Configure TensorFlow to use GPU with memory growth, fallback to CPU if 

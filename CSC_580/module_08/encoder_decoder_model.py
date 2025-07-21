@@ -7,7 +7,22 @@ from tensorflow.keras.layers import Input # type: ignore
 from tensorflow.keras.layers import LSTM, Dense # type: ignore
 from tensorflow.keras.layers import Dropout, BatchNormalization # type: ignore
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau # type: ignore
-"""Enhanced Encoder-Decoder LSTM model for sequence-to-sequence tasks."""
+"""Encoder-Decoder model.
+
+Encoder-Decoder LSTM model for sequence-to-sequence tasks.
+
+Usage:
+    from encoder_decoder_model import EncoderDecoderModel
+    model = EncoderDecoderModel(n_input, 
+                         n_output, 
+                         n_units, 
+                         use_gpu=True, 
+                         dropout_rate=0.2)
+    model.compile_model(optimizer='adam', 
+                         loss='categorical_crossentropy', 
+                         metrics=['accuracy'])
+    model.train(X1, X2, y, epochs=50, batch_size=64)
+"""
 
 class EncoderDecoderModel:
     """Enhanced Encoder-Decoder LSTM model with improved architecture."""
