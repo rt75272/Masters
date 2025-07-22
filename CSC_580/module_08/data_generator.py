@@ -57,6 +57,6 @@ class DataGenerator:
         decoded_sequence = []
         for vector in encoded_seq:
             max_index = argmax(vector)
-            # Convert numpy int64 to plain Python int for cleaner display
+            # Convert numpy int64 to plain Python int for cleaner display.
             decoded_sequence.append(int(max_index))
         return decoded_sequence

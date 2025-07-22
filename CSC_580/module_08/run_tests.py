@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+import sys
+import subprocess
+import argparse
+from pathlib import Path
 """Test runner script for the encoder-decoder model.
 
 This script provides a convenient way to run different types of tests
@@ -12,21 +15,15 @@ Usage:
     python run_tests.py --verbose          # Verbose output
     python run_tests.py --fast             # Skip slow tests
 """
-
-import sys
-import subprocess
-import argparse
-from pathlib import Path
-
+NUM_COLUMNS = 88
 
 def run_command(cmd, description):
     """Run a shell command and handle errors."""
-    print(f"\n{'='*60}")
+    print(f"\n{'='*NUM_COLUMNS}")
     print(f"🚀 {description}")
-    print(f"{'='*60}")
+    print(f"{'='*NUM_COLUMNS}")
     print(f"Command: {' '.join(cmd)}")
-    print("-" * 60)
-    
+    print("=" * NUM_COLUMNS)
     try:
         result = subprocess.run(cmd, check=True, capture_output=False)
         print(f"\n✅ {description} completed successfully!")
@@ -34,7 +31,6 @@ def run_command(cmd, description):
     except subprocess.CalledProcessError as e:
         print(f"\n❌ {description} failed with exit code {e.returncode}")
         return e.returncode
-
 
 def main():
     parser = argparse.ArgumentParser(description="Run encoder-decoder model tests")
@@ -50,56 +46,51 @@ def main():
                        help="Skip slow tests")
     parser.add_argument("--html-cov", action="store_true",
                        help="Generate HTML coverage report")
-    
     args = parser.parse_args()
-    
-    # Base command
-    base_cmd = [sys.executable, "-m", "pytest", "test_encoder_decoder.py"]
-    
-    # Add flags based on arguments
+    base_cmd = [sys.executable, "-m", "pytest", "test_encoder_decoder.py", "test_visualize_architecture.py"]
+    # Add flags based on arguments.
     if args.verbose:
         base_cmd.append("-v")
     else:
         base_cmd.append("-q")
-        
     if args.fast:
         base_cmd.extend(["-m", "not slow"])
-        
-    # Determine test selection
+    # Determine test selection.
     if args.unit:
         test_classes = [
             "TestDataGenerator", 
             "TestEncoderDecoderModel", 
             "TestModelTrainer",
-            "TestGPUConfig"
-        ]
+            "TestGPUConfig",
+            "TestVisualizationDiagrams",
+            "TestFileSaving",
+            "TestMainFunction",
+            "TestCommandLineInterface",
+            "TestDiagramContent",
+            "TestErrorHandling"]
         for test_class in test_classes:
             cmd = base_cmd + [f"::{test_class}"]
             run_command(cmd, f"Running {test_class} tests")
-            
     elif args.integration:
-        cmd = base_cmd + ["::TestIntegration"]
-        run_command(cmd, "Running Integration tests")
-        
+        integration_classes = ["TestIntegration"]
+        for test_class in integration_classes:
+            cmd = base_cmd + [f"::{test_class}"]
+            run_command(cmd, f"Running {test_class} tests")
     else:
-        # Run all tests
+        # Run all tests.
         cmd = base_cmd.copy()
-        
-        # Add coverage if requested
+        # Add coverage if requested.
         if args.coverage or args.html_cov:
             cmd.extend(["--cov=.", "--cov-report=term-missing"])
             if args.html_cov:
                 cmd.extend(["--cov-report=html"])
-                
         result = run_command(cmd, "Running all tests")
-        
         if args.html_cov and result == 0:
             print(f"\n📊 HTML coverage report generated in 'htmlcov/index.html'")
-            
-    print(f"\n{'='*60}")
-    print("🎉 Test execution completed!")
-    print(f"{'='*60}")
+    print(f"\n{'='*NUM_COLUMNS}")
+    print("🎉 Testing completed.")
+    print(f"{'='*NUM_COLUMNS}")
 
-
+# The big red activation button.
 if __name__ == "__main__":
     main()
